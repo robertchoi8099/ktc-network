@@ -17,5 +17,15 @@
 ## limitations under the License.
 ##
 
-default["openstack"]["network"]["rabbit_server_chef_role"] = "ktc-messaging"
+include_attribute "openstack-network::default"
 
+default["openstack"]["network"]["api"]["agent"]["agent_report_interval"] = 4
+default["openstack"]["network"]["rabbit_server_chef_role"] = "ktc-messaging"
+default["openstack"]["network"]["core_plugin"] = "quantum.plugins.linuxbridge.lb_quantum_plugin.LinuxBridgePluginV2"
+default["openstack"]["network"]["interface_driver"] = "quantum.agent.linux.interface.BridgeInterfaceDriver"
+default["openstack"]["network"]["use_namespaces"] = "False"
+default["openstack"]["network"]["metadata"]["nova_metadata_ip"] = "10.1.1.2"
+default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_packages"] = [ "quantum-plugin-linuxbridge", "quantum-plugin-linuxbridge-agent" ]
+default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"] = "quantum-plugin-linuxbridge-agent"
+default["openstack"]["network"]["platform"]["quantum_python_package"] = "python-quantumclient"
+default["openstack"]["network"]["platform"]["quantum_server_packages"] = [ "quantum-server" ]
