@@ -22,7 +22,3 @@ bash "install_quantum" do
     python ./setup.py install
     EOH
 end
-
-node.set["openstack"]["network"]["platform"]["quantum_packages"] = []
-node.set["openstack"]["network"]["platform"]["quantum_python_packages"] = []
-
