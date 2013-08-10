@@ -18,3 +18,11 @@
 #
 
 include_recipe "ktc-network::common"
+
+platform_options["quantum_linuxbridge_agent_packages"].each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
+

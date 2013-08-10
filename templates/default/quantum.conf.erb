@@ -8,10 +8,10 @@ verbose = <%= node["openstack"]["network"]["verbose"] %>
 
 # Where to store Quantum state files.  This directory must be writable by the
 # user executing the agent.
-# state_path = /var/lib/quantum
+state_path = /var/run/quantum
 
 # Where to store lock files
-lock_path = $state_path/lock
+# lock_path = $state_path/lock
 
 # log_format = %(asctime)s %(levelname)8s [%(name)s] %(message)s
 # log_date_format = %Y-%m-%d %H:%M:%S
@@ -64,7 +64,7 @@ api_paste_config = api-paste.ini
 
 # The strategy to be used for auth.
 # Supported values are 'keystone'(default), 'noauth'.
-# auth_strategy = keystone
+auth_strategy = keystone
 
 # Base MAC address. The first 3 octets will remain unchanged. If the
 # 4h octet is not 00, it will also used. The others will be
@@ -92,7 +92,7 @@ api_paste_config = api-paste.ini
 # Enable or disable overlapping IPs for subnets
 # Attention: the following parameter MUST be set to False if Quantum is
 # being used in conjunction with nova security groups and/or metadata service.
-# allow_overlapping_ips = False
+allow_overlapping_ips = False
 # Ensure that configured gateway is on subnet
 # force_gateway_on_subnet = False
 
@@ -101,13 +101,13 @@ api_paste_config = api-paste.ini
 # The messaging module to use, defaults to kombu.
 # rpc_backend = quantum.openstack.common.rpc.impl_kombu
 # Size of RPC thread pool
-# rpc_thread_pool_size = 64,
+rpc_thread_pool_size = 64
 # Size of RPC connection pool
-# rpc_conn_pool_size = 30
+rpc_conn_pool_size = 30
 # Seconds to wait for a response from call or multicall
-# rpc_response_timeout = 60
+rpc_response_timeout = 60
 # Seconds to wait before a cast expires (TTL). Only supported by impl_zmq.
-# rpc_cast_timeout = 30
+rpc_cast_timeout = 30
 # Modules of exceptions that are permitted to be recreated
 # upon receiving exception data from an rpc call.
 # allowed_rpc_exception_modules = quantum.openstack.common.exception, nova.exception
@@ -273,7 +273,7 @@ notification_topics = notifications
 # quota_network = 10
 
 # number of subnets allowed per tenant, and minus means unlimited
-# quota_subnet = 10
+quota_subnet = -1
 
 # number of ports allowed per tenant, and minus means unlimited
 # quota_port = 50
@@ -307,15 +307,15 @@ root_helper = "sudo quantum-rootwrap /etc/quantum/rootwrap.conf"
 # =========== items for agent management extension =============
 # seconds between nodes reporting state to server, should be less than
 # agent_down_time
-report_interval = <%= node["openstack"]["network"]["api"]["agent"]["agent_report_interval"] %>
+# report_interval = <%= node["openstack"]["network"]["api"]["agent"]["agent_report_interval"] %>
 
-[keystone_authtoken]
-auth_host = <%= @identity_endpoint.host %>
-auth_port = <%= @identity_endpoint.port %>
-auth_protocol = <%= @identity_endpoint.scheme %>
-admin_tenant_name = <%= node["openstack"]["network"]["service_tenant_name"] %>
-admin_user = <%= node["openstack"]["network"]["service_user"] %>
-admin_password = <%= @service_pass %>
-signing_dir = <%= node["openstack"]["network"]["api"]["agent"]["signing_dir"] %>
+# [keystone_authtoken]
+# auth_host = <%= @identity_endpoint.host %>
+# auth_port = <%= @identity_endpoint.port %>
+# auth_protocol = <%= @identity_endpoint.scheme %>
+# admin_tenant_name = <%= node["openstack"]["network"]["service_tenant_name"] %>
+# admin_user = <%= node["openstack"]["network"]["service_user"] %>
+# admin_password = <%= @service_pass %>
+# signing_dir = <%= node["openstack"]["network"]["api"]["agent"]["signing_dir"] %>
 
 # ===========  end of items for agent management extension =====
