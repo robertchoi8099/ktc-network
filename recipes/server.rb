@@ -9,7 +9,7 @@ include_recipe "openstack-network::server"
 chef_gem "chef-rewind"
 require 'chef/rewind'
 
-cookbook_file "/etc/init/quantum-server.conf"
+cookbook_file "/etc/init/quantum-server.conf" do
   source "init/quantum-server.conf"
   action :create
 end
