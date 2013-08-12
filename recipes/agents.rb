@@ -20,7 +20,7 @@ require 'chef/rewind'
 agent_list = [ "plugin-#{main_plugin}" ].concat(%w{ dhcp l3 metadata })
 agent_list.each do |agent|
   cookbook_file "/etc/init/quantum-#{agent}-agent.conf" do
-    source "init/quantum-#{agent}-agent.conf"
+    source "etc/init/quantum-#{agent}-agent.conf"
     action :create
   end
   

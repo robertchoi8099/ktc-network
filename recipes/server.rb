@@ -10,7 +10,7 @@ chef_gem "chef-rewind"
 require 'chef/rewind'
 
 cookbook_file "/etc/init/quantum-server.conf" do
-  source "init/quantum-server.conf"
+  source "etc/init/quantum-server.conf"
   action :create
 end
 
