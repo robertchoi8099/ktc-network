@@ -15,15 +15,27 @@ git "#{Chef::Config[:file_cache_path]}/quantum" do
   repository "https://github.com/kt-cloudware/quantum.git"
   reference "develop"
   action :sync
+  notifies :install, "python_pip[pip-requires]", :immediately
+  notifies :run, "bash[install_quantum]", :immediately
 end
 
 python_pip "pip-requires" do
   package_name "#{Chef::Config[:file_cache_path]}/quantum/tools/pip-requires"
   options "-r"
-  action :install
+  action :nothing
 end
 
-python "setup.py install" do
+bash "install_quantum" do
   cwd "#{Chef::Config[:file_cache_path]}/quantum"
-  action :run
+  code <<-EOF
+    python ./setup.py install
+  EOF
+  action :nothing
+end
+
+directory "/var/log/quantum" do
+  owner node["openstack"]["network"]["platform"]["user"]
+  group "adm"
+  mode 00750
+  action :create
 end
