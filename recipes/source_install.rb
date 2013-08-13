@@ -3,6 +3,8 @@
 # Recipe:: source_install 
 #
 
+include_recipe "python"
+
 user node["openstack"]["network"]["platform"]["user"] do
   home "/var/lib/quantum"
   shell "/bin/false"
@@ -15,10 +17,13 @@ git "#{Chef::Config[:file_cache_path]}/quantum" do
   action :sync
 end
 
-bash "install_quantum" do
+python_pip "pip-requires" do
+  package_name "#{Chef::Config[:file_cache_path]}/quantum/tools/pip-requires"
+  options "-r"
+  action :install
+end
+
+python "setup.py install" do
   cwd "#{Chef::Config[:file_cache_path]}/quantum"
-  code <<-EOH
-    python ./setup.py build
-    python ./setup.py install
-    EOH
+  action :run
 end

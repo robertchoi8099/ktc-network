@@ -13,6 +13,7 @@ end
   ktc-utils
   openstack-common
   openstack-network
+  python
 }.each do |dep|
   depends dep
 end
