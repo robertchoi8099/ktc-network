@@ -32,3 +32,4 @@ default["openstack"]["network"]["platform"]["quantum_client_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_dhcp_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_l3_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_metadata_packages"] = []
+default["openstack"]["network"]["linuxbridge"]["network_vlan_ranges"] = "private-net-01,private-net-02"
