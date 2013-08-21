@@ -63,4 +63,4 @@ polling_interval = 2
 
 [SECURITYGROUP]
 # Firewall driver for realizing quantum security group function
-firewall_driver = quantum.agent.linux.iptables_firewall.IptablesFirewallDriver
+firewall_driver = <%= node["openstack"]["network"]["linuxbridge"]["firewall_driver"] %>
