@@ -21,6 +21,13 @@ main_plugin = node["openstack"]["network"]["interface_driver_map"][driver_name]
 case main_plugin
 when "linuxbridge"
 
+  class Chef::Recipe
+    include KTCUtils
+  end
+  
+  physical_interface = get_interface "private"
+  node.set["openstack"]["network"]["linuxbridge"]["physical_interface_mappings"] = "#{node["openstack"]["network"]["linuxbridge"]["physical_network"]}:#{physical_interface}"
+
   rewind :template => "/etc/quantum/plugins/linuxbridge/linuxbridge_conf.ini" do
     cookbook_name "ktc-network"
   end

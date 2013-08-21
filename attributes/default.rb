@@ -33,4 +33,5 @@ default["openstack"]["network"]["platform"]["quantum_dhcp_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_l3_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_metadata_packages"] = []
 default["openstack"]["network"]["linuxbridge"]["network_vlan_ranges"] = "private-net-01,private-net-02"
+default["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-net-01"
 default["openstack"]["network"]["linuxbridge"]["firewall_driver"] = "quantum.agent.firewall.NoopFirewallDriver"
