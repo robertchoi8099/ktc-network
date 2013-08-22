@@ -19,10 +19,17 @@
 
 include_recipe "ktc-network::common"
 
-platform_options["quantum_linuxbridge_agent_packages"].each do |pkg|
-  package pkg do
-    action :install
-  end
+cookbook_file "/etc/init/quantum-plugin-linuxbridge-agent.conf" do
+  source "etc/init/quantum-plugin-linuxbridge-agent.conf"
+  action :create
+  notifies :restart, "service[quantum-plugin-linuxbridge-agent]", :immediately
 end
 
+platform_options = node["openstack"]["network"]["platform"]
 
+service "quantum-plugin-linuxbridge-agent" do
+  service_name platform_options["quantum_linuxbridge_agent_service"]
+  provider Chef::Provider::Service::Upstart
+  supports :status => true, :restart => true
+  action :enable
+end
