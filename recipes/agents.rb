@@ -2,6 +2,7 @@
 # Cookbook Name:: ktc-network
 # Recipe:: agents
 #
+include_recipe "sysctl::default"
 
 platform_options = node["openstack"]["network"]["platform"]
 

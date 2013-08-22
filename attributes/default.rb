@@ -37,3 +37,9 @@ default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"]
 default["openstack"]["network"]["linuxbridge"]["network_vlan_ranges"] = "private-net-01,private-net-02"
 default["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-net-01"
 default["openstack"]["network"]["linuxbridge"]["firewall_driver"] = "quantum.agent.firewall.NoopFirewallDriver"
+
+# set sysctl properties
+default['sysctl']['params']['net']['ipv4']['ip_forward'] = 1
+default['sysctl']['params']['net']['bridge']['bridge-nf-call-iptables'] = 0
+default['sysctl']['params']['net']['bridge']['bridge-nf-call-ip6tables'] = 0
+default['sysctl']['params']['net']['bridge']['bridge-nf-call-arptables'] = 0
