@@ -15,5 +15,5 @@ set_service_endpoint_ip "network-api"
 
 include_recipe "openstack-common"
 include_recipe "openstack-common::logging"
-include_recipe "openstack-network::server"
+include_recipe "ktc-network::server"
 include_recipe "openstack-network::identity_registration"
