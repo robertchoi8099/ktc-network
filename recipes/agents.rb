@@ -31,6 +31,10 @@ require 'chef/rewind'
   rewind :service => "quantum-#{agent}-agent" do
     provider Chef::Provider::Service::Upstart
   end
+
+  rewind :template => "/etc/quantum/#{agent}_agent.ini" do
+    cookbook_name "ktc-network"
+  end
 end
 
 # from openstack-network::l3_agent

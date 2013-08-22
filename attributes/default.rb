@@ -24,6 +24,7 @@ default["openstack"]["network"]["rabbit_server_chef_role"] = "ktc-messaging"
 default["openstack"]["network"]["core_plugin"] = "quantum.plugins.linuxbridge.lb_quantum_plugin.LinuxBridgePluginV2"
 default["openstack"]["network"]["interface_driver"] = "quantum.agent.linux.interface.BridgeInterfaceDriver"
 default["openstack"]["network"]["use_namespaces"] = "False"
+default["openstack"]["network"]["enable_multi_host"] = "True"
 default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"] = "quantum-plugin-linuxbridge-agent"
 default["openstack"]["network"]["platform"]["quantum_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_server_packages"] = []
