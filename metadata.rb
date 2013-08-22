@@ -14,6 +14,7 @@ end
   openstack-common
   openstack-network
   python
+  sysctl
 }.each do |dep|
   depends dep
 end
