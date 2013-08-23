@@ -3,6 +3,13 @@
 # Recipe:: agents
 #
 
+class Chef::Recipe
+  include KTCUtils
+end
+
+set_rabbit_servers "network"
+set_database_servers "network"
+
 platform_options = node["openstack"]["network"]["platform"]
 
 driver_name = node["openstack"]["network"]["interface_driver"].split('.').last.downcase
