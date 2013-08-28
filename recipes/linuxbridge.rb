@@ -32,5 +32,5 @@ service "quantum-plugin-linuxbridge-agent" do
   provider Chef::Provider::Service::Upstart
   supports :status => true, :restart => true
   action :enable
-  subscribes :restart, "template[/etc/quantum/plugins/linuxbridge/linuxbridge_conf.ini]", :immediately
+  subscribes :restart, "template[/etc/quantum/plugins/linuxbridge/linuxbridge_conf.ini]", :delayed
 end
