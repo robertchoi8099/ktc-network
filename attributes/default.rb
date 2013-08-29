@@ -26,6 +26,7 @@ default["openstack"]["network"]["interface_driver"] = "quantum.agent.linux.inter
 default["openstack"]["network"]["use_namespaces"] = "False"
 default["openstack"]["network"]["enable_multi_host"] = "True"
 default["openstack"]["network"]["l3"]["external_network_bridge"]= ""
+default["openstack"]["network"]["l3"]["router_name"] = "private-router-01"
 default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"] = "quantum-plugin-linuxbridge-agent"
 default["openstack"]["network"]["platform"]["quantum_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_server_packages"] = []
