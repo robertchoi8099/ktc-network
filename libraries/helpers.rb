@@ -15,6 +15,100 @@ module KTC
       end
     end
 
+    def patch_create_network
+      Fog::Network::OpenStack::Real.send(:define_method, :create_network) do |options = {}|
+        data = { 'network' => {} }
+  
+        vanilla_options = [
+          :name,
+          :shared,
+          :admin_state_up,
+          :tenant_id
+        ]
+  
+        vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+          data['network'][key] = options[key]
+        end
+  
+        provider_options = [
+          :router_external,
+          :provider_network_type,
+          :provider_segmentation_id,
+          :provider_physical_network,
+          :multihost_multi_host
+        ]
+  
+        aliases = {
+          :provider_network_type     => 'provider:network_type',
+          :provider_physical_network => 'provider:physical_network',
+          :provider_segmentation_id  => 'provider:segmentation_id',
+          :router_external           => 'router:external',
+          :multihost_multi_host      => 'multihost:multi_host'
+        }
+  
+        provider_options.reject{ |o| options[o].nil? }.each do |key|
+          aliased_key = aliases[key] || key
+          data['network'][aliased_key] = options[key]
+        end
+  
+        request(
+          :body     => Fog::JSON.encode(data),
+          :expects  => [201],
+          :method   => 'POST',
+          :path     => 'networks'
+        )
+      end
+    end
+
+    def patch_create_router
+      Fog::Network::OpenStack::Real.send(:define_method, :create_router) do |name, options = {}|
+        Chef::Log.info "#{name}, #{options}"
+        data = {
+          'router' => {
+            'name' => name,
+          }
+        }
+
+        vanilla_options = [
+          :admin_state_up,
+          :tenant_id,
+          :network_id,
+          :external_gateway_info,
+          :status,
+          :subnet_id,
+        ]
+
+        vanilla_options.reject{ |o| options[o].nil? }.each do |key|
+          data['router'][key] = options[key]
+        end
+
+        provider_options = [
+          :multihost_network_id
+        ]
+
+        aliases = {
+          :multihost_network_id => 'multihost:network_id'
+        }
+
+        provider_options.reject{ |o| options[o].nil? }.each do |key|
+          aliased_key = aliases[key] || key
+          data['router'][aliased_key] = options[key]
+        end
+
+        request(
+          :body     => Fog::JSON.encode(data),
+          :expects  => [201],
+          :method   => 'POST',
+          :path     => 'routers'
+        )
+      end
+    end
+
+    def fog_monkey_patch
+      patch_create_network
+      patch_create_router
+    end
+
     def initialize(args)
       load_gem
       @auth_uri= args[:auth_uri]
@@ -24,6 +118,7 @@ module KTC
 
       validate
       net
+      fog_monkey_patch
     end
 
     def net
