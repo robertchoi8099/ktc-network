@@ -62,7 +62,6 @@ module KTCNetwork
 
     def patch_create_router
       Fog::Network::OpenStack::Real.send(:define_method, :create_router) do |name, options = {}|
-        Chef::Log.info "#{name}, #{options}"
         data = {
           'router' => {
             'name' => name,
