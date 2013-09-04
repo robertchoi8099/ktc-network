@@ -22,4 +22,22 @@ module KTCNetwork
     options = Hash[entity_options.map { |k, v| [k.gsub(':','_').to_sym, v] }]
     resp = @quantum.send(request, *args, options)
   end
+
+  # make arguments for fog openstack requests
+  # ordered_args_map must be ordered same to the args of fog openstack request
+  def get_request_args(ordered_args_map, resource)
+    options = resource.options
+    ordered_args = []
+    ordered_args_map.each do |k, v|
+      if options.has_key? k 
+        ordered_args << options[k]
+      elsif (resource.respond_to? k) && (resource.send(k) != nil)
+        ordered_args << resource.send(k.to_sym)
+      else
+        ordered_args << v
+      end
+    end
+
+    ordered_args
+  end
 end
