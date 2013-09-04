@@ -36,8 +36,11 @@ action :create do
   load_current_resource 
   if !@current_resource.entity
     options = @current_resource.options
-    router_name = (options.has_key? "name")? options["name"] : @current_resource.name
-    resp = send_request "create_router", @new_resource.options, router_name
+    ordered_args_map = {
+      "name" => nil
+    }
+    ordered_args = get_request_args @new_resource, ordered_args_map
+    resp = send_request "create_router", @new_resource.options, *ordered_args
     Chef::Log.info("Created router: #{resp[:body]["router"]}")
     id = resp[:body]["router"]["id"]
     new_resource.updated_by_last_action(true)
