@@ -45,11 +45,6 @@ require 'chef/rewind'
   end
 end
 
-# from openstack-network::l3_agent
-rewind :execute => "create external network bridge" do
-  action :nothing
-end
-
 rewind :package => "quantum-plugin-#{main_plugin}" do
   action :nothing
 end
