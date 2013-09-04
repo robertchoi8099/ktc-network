@@ -44,10 +44,13 @@ action :create do
     ordered_args = get_request_args ordered_args_map, @new_resource
     resp = send_request "create_subnet", @new_resource.options, *ordered_args
     Chef::Log.info("Created subnet: #{resp[:body]["subnet"]}")
+    id = resp[:body]["subnet"]["id"]
     new_resource.updated_by_last_action(true)
   else
     Chef::Log.info("Subnet already exists.. Not creating.")
     Chef::Log.info("Existing subnet: #{@current_resource.entity}")
+    id = @current_resource.entity["id"]
     new_resource.updated_by_last_action(false)
   end
+  store_id_in_attr "subnet", id
 end
