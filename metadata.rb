@@ -9,12 +9,8 @@ recipe		  "ktc-network::default", "Installs packages required for network-server
   supports os
 end
 
-%w{
-  ktc-utils
-  openstack-common
-  openstack-network
-  python
-  sysctl
-}.each do |dep|
-  depends dep
-end
+depends "ktc-utils", "~> 0.2.1"
+depends "openstack-common", "~> 0.4.3"
+depends "openstack-network", "~> 7.0.0"
+depends "python", "~> 1.3.6"
+depends "sysctl", "~> 0.3.3"
