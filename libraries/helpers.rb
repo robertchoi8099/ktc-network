@@ -1,18 +1,21 @@
 module KTCNetwork
-  def find_entity(entity_list, entity_options)
-    entity_list.each do |entity|
-      found = true
-      entity.each do |k, v|
-        if (entity_options.has_key? k) && (entity_options[k] != v)
-          found = false
-          break
-        end
-      end
-      return entity if found
+  def find_existing_entity(list_type, request_options)
+    # reject array type options from request options because those cause quantum internal server error
+    array_rejected = request_options.reject { |k, v| v.kind_of? Array }
+    response = send_request "list_#{list_type}", array_rejected
+    entity_list = response[:body]["#{list_type}"]
+    if entity_list.empty?
+      entity = nil
+    elsif entity_list.length == 1
+      entity = entity_list[0]
+    else
+      msg = "Found multiple existing #{list_type}: #{entity_list}\n"\
+            "Need more specific options. Stop here."
+      raise RuntimeError, msg
     end
-    nil
+    entity
   end
-  
+
   def store_id_in_attr(entity_type, id)
     node.set["openstack"]["network"]["l3"]["#{entity_type}_id"] = id
     Chef::Log.info "Set node['openstack']['network']['l3']['#{entity_type}_id'] to '#{id}'"
@@ -20,24 +23,21 @@ module KTCNetwork
   
   def send_request(request, entity_options={}, *args)
     options = Hash[entity_options.map { |k, v| [k.gsub(':','_').to_sym, v] }]
-    resp = @quantum.send(request, *args, options)
+    begin
+      resp = @quantum.send(request, *args, options)
+    rescue Exception => e
+      Chef::Log.info "An error occured with options: #{options}"
+      raise e
+    end
   end
 
-  # make arguments for fog openstack requests
-  # ordered_args_map must be ordered same to the args of fog openstack request
-  def get_request_args(ordered_args_map, resource)
-    options = resource.options
-    ordered_args = []
-    ordered_args_map.each do |k, v|
-      if options.has_key? k 
-        ordered_args << options[k]
-      elsif (resource.respond_to? k) && (resource.send(k) != nil)
-        ordered_args << resource.send(k.to_sym)
-      else
-        ordered_args << v
+  def get_complete_options(default_options, resource_options)
+    default_options.each do |k, v|
+      if (v == nil) && (!resource_options.has_key? k)
+        raise RuntimeError, "Must provide option \"#{k}\". Provided options: #{resource_options}"
       end
     end
-
-    ordered_args
+    complete_options = default_options.clone
+    complete_options.merge!(resource_options)
   end
 end

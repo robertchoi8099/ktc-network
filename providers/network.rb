@@ -15,28 +15,22 @@ def initialize(new_resource, run_context)
 end
 
 def load_current_resource
-  @current_resource ||= Chef::Resource::KtcNetworkNetwork.new (@new_resource.name)
+  @current_resource ||= Chef::Resource::KtcNetworkRouter.new (@new_resource.name)
   @current_resource.auth_uri      @new_resource.auth_uri
   @current_resource.user_pass     @new_resource.user_pass
   @current_resource.tenant_name   @new_resource.tenant_name
   @current_resource.user_name     @new_resource.user_name
   @current_resource.options     @new_resource.options
 
-  # load the router from quantum if it exists
-  # fog returns nil if its not found
-  response = send_request "list_networks"
-  entity_list = response[:body]["networks"]
-  entity = find_entity(entity_list, @current_resource.options)
-  if entity
-    @current_resource.entity = entity
-  end
+  default_options = {}
+  @complete_options = get_complete_options default_options, @new_resource.options
+  @current_resource.entity = find_existing_entity "networks", @complete_options
 end
 
 action :create do
-  load_current_resource 
+  load_current_resource
   if !@current_resource.entity
-    resp = send_request "create_network", @new_resource.options
-    network = resp[:body]["network"]
+    resp = send_request "create_network", @complete_options
     Chef::Log.info("Created network: #{resp[:body]["network"]}")
     id = resp[:body]["network"]["id"]
     new_resource.updated_by_last_action(true)

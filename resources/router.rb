@@ -1,4 +1,4 @@
-actions :create
+actions :create, :add_interface
 
 attribute :auth_uri, :kind_of => String, :required => true
 attribute :tenant_name, :kind_of => String, :required => true

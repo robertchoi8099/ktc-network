@@ -24,23 +24,24 @@ def load_current_resource
 
   # load the router from quantum if it exists
   # fog returns nil if its not found
-  response = send_request "list_routers"
-  entity_list = response[:body]["routers"]
-  entity = find_entity(entity_list, @current_resource.options)
-  if entity
-    @current_resource.entity = entity
+  if (@new_resource.action.include? :add_interface)
+    default_options = {
+      "id" => nil,
+      "subnet_id" => nil
+    }
+  else
+    default_options = {
+      "name" => nil
+    }
   end
+  @complete_options = get_complete_options default_options, @new_resource.options
+  @current_resource.entity = find_existing_entity "routers", @complete_options
 end
 
 action :create do
   load_current_resource 
   if !@current_resource.entity
-    options = @current_resource.options
-    ordered_args_map = {
-      "name" => nil
-    }
-    ordered_args = get_request_args @new_resource, ordered_args_map
-    resp = send_request "create_router", @new_resource.options, *ordered_args
+    resp = send_request "create_router", @complete_options, @complete_options["name"]
     Chef::Log.info("Created router: #{resp[:body]["router"]}")
     id = resp[:body]["router"]["id"]
     new_resource.updated_by_last_action(true)
@@ -51,4 +52,28 @@ action :create do
     new_resource.updated_by_last_action(false)
   end
   store_id_in_attr "router", id
+end
+
+action :add_interface do
+  load_current_resource
+  if @current_resource.entity
+    id = @current_resource.entity["id"]
+    subnet_id = @complete_options["subnet_id"]
+    filter_options = {
+      "device_id" => id,
+      "subnet_id" => subnet_id
+    }
+    port = find_existing_entity "ports", filter_options
+    if !port 
+      resp = send_request "add_router_interface", @complete_options, id, subnet_id
+      Chef::Log.info("Added Router interface: #{resp[:body]}")
+      new_resource.updated_by_last_action(true)
+    else
+      Chef::Log.info("Router already has a port.. Not adding.")
+      Chef::Log.info("Existing port: #{port}")
+      new_resource.updated_by_last_action(false)
+    end
+  else
+    raise RuntimeError, "Unable to find Router: \"id\"=>\"#{@complete_options["id"]}\""
+  end
 end
