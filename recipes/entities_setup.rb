@@ -8,7 +8,7 @@ service_pass = service_password "openstack-network"
 
 physical_net = node["openstack"]["network"]["linuxbridge"]["physical_network"] 
 network_id = node["openstack"]["network"]["l3"]["network_id"]
-ktc_network_network physical_net do
+ktc_network_network "Create Private Network" do
   auth_uri    auth_uri
   user_pass   service_pass
   tenant_name node["openstack"]["network"]["service_tenant_name"]
@@ -23,7 +23,7 @@ ktc_network_network physical_net do
   action :create
 end
 
-ktc_network_router node["openstack"]["network"]["l3"]["router_name"] do
+ktc_network_router "Create Private Router" do
   auth_uri    auth_uri
   user_pass   service_pass
   tenant_name node["openstack"]["network"]["service_tenant_name"]
@@ -35,7 +35,7 @@ ktc_network_router node["openstack"]["network"]["l3"]["router_name"] do
   action :create
 end
 
-ktc_network_subnet node["openstack"]["network"]["linuxbridge"]["physical_subnet"] do
+ktc_network_subnet "Create Private Subnet" do
   auth_uri    auth_uri
   user_pass   service_pass
   tenant_name node["openstack"]["network"]["service_tenant_name"]
@@ -47,4 +47,16 @@ ktc_network_subnet node["openstack"]["network"]["linuxbridge"]["physical_subnet"
     "name" => node["openstack"]["network"]["linuxbridge"]["physical_subnet"]
   )
   action :create
+end
+
+ktc_network_router "Add Private Subnet to Private Router" do
+  auth_uri    auth_uri
+  user_pass   service_pass
+  tenant_name node["openstack"]["network"]["service_tenant_name"]
+  user_name   node["openstack"]["network"]["service_user"]
+  options(
+    "id" => node["openstack"]["network"]["l3"]["router_id"],
+    "subnet_id" => node["openstack"]["network"]["l3"]["subnet_id"]
+  )
+  action :add_interface
 end

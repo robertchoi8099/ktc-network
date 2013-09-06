@@ -22,27 +22,19 @@ def load_current_resource
   @current_resource.user_name     @new_resource.user_name
   @current_resource.options     @new_resource.options
 
-  # load the router from quantum if it exists
-  # fog returns nil if its not found
-  response = send_request "list_subnets"
-  entity_list = response[:body]["subnets"]
-  entity = find_entity(entity_list, @current_resource.options)
-  if entity
-    @current_resource.entity = entity
-  end
+  default_options = {
+    "network_id" => nil,
+    "cidr" => nil,
+    "ip_version" => 4
+  }
+  @complete_options = get_complete_options default_options, @new_resource.options
+  @current_resource.entity = find_existing_entity "subnets", @complete_options
 end
 
 action :create do
-  load_current_resource 
+  load_current_resource
   if !@current_resource.entity
-    options = @new_resource.options
-    ordered_args_map = { 
-      "network_id" => nil,
-      "cidr" => nil,
-      "ip_version" => 4
-    }
-    ordered_args = get_request_args ordered_args_map, @new_resource
-    resp = send_request "create_subnet", @new_resource.options, *ordered_args
+    resp = send_request "create_subnet", @complete_options, @complete_options["network_id"], @complete_options["cidr"], @complete_options["ip_version"]
     Chef::Log.info("Created subnet: #{resp[:body]["subnet"]}")
     id = resp[:body]["subnet"]["id"]
     new_resource.updated_by_last_action(true)
