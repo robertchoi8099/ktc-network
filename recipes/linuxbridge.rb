@@ -27,10 +27,12 @@ end
 
 platform_options = node["openstack"]["network"]["platform"]
 
+tmpl = "template[/etc/quantum/plugins/linuxbridge/linuxbridge_conf.ini]"
+
 service "quantum-plugin-linuxbridge-agent" do
   service_name platform_options["quantum_linuxbridge_agent_service"]
   provider Chef::Provider::Service::Upstart
   supports :status => true, :restart => true
   action :enable
-  subscribes :restart, "template[/etc/quantum/plugins/linuxbridge/linuxbridge_conf.ini]", :delayed
+  subscribes :restart, tmpl, :delayed
 end

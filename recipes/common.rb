@@ -15,7 +15,8 @@ end
 
 platform_options = node["openstack"]["network"]["platform"]
 
-driver_name = node["openstack"]["network"]["interface_driver"].split('.').last.downcase
+driver_name = node["openstack"]["network"]["interface_driver"]
+driver_name = driver_name.split('.').last.downcase
 main_plugin = node["openstack"]["network"]["interface_driver_map"][driver_name]
 
 case main_plugin
@@ -24,9 +25,10 @@ when "linuxbridge"
   class Chef::Recipe
     include KTCUtils
   end
-  
-  physical_interface = get_interface "private"
-  node.set["openstack"]["network"]["linuxbridge"]["physical_interface_mappings"] = "#{node["openstack"]["network"]["linuxbridge"]["physical_network"]}:#{physical_interface}"
+
+  pif = get_interface "private"
+  iface = "#{node["openstack"]["network"]["linuxbridge"]["physical_netwoork"]}:#{pif}"
+  node.set["openstack"]["network"]["linuxbridge"]["physical_interface_mappings"] = iface
 
   rewind :template => "/etc/quantum/plugins/linuxbridge/linuxbridge_conf.ini" do
     cookbook_name "ktc-network"
