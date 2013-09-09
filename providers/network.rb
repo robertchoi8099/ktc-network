@@ -23,7 +23,8 @@ def load_current_resource
   @current_resource.options     @new_resource.options
 
   default_options = {}
-  @complete_options = get_complete_options default_options, @new_resource.options
+  compiled_options = compile_options @new_resource.options, @new_resource.search_id
+  @complete_options = get_complete_options default_options, compiled_options
   @current_resource.entity = find_existing_entity "networks", @complete_options
 end
 

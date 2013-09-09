@@ -26,18 +26,53 @@ module KTCNetwork
     begin
       resp = @quantum.send(request, *args, options)
     rescue Exception => e
-      Chef::Log.info "An error occured with options: #{options}"
+      Chef::Log.error "An error occured with options: #{options}"
       raise e
     end
+  end
+
+  def get_id_from_macro(macro, search_map)
+    macro_list = [:router, :network, :subnet, :port]
+    if macro_list.include? macro
+      if search_map.has_key? macro
+        entity = find_existing_entity "#{macro.to_s}s", search_map[macro]
+        id = entity["id"]
+      else
+        raise RuntimeError, "Must give :#{macro} options in 'search_id' attribute"
+      end
+    else
+      raise RuntimeError, "Macro must be one of #{macro_list}. You gave :#{macro}."
+    end
+    id
+  end
+    
+  def compile_options(options, search_map)
+    compiled_options = {}
+    options.each do |k, v|
+      if v.kind_of? Hash
+        compiled_v = compile_options v, search_map
+      elsif v.kind_of? Symbol
+        compiled_v = get_id_from_macro v, search_map
+      else
+        compiled_v = v
+      end
+      compiled_options[k] = compiled_v
+    end
+    compiled_options
   end
 
   def get_complete_options(default_options, resource_options)
     default_options.each do |k, v|
       if (v == nil) && (!resource_options.has_key? k)
-        raise RuntimeError, "Must provide option \"#{k}\". Provided options: #{resource_options}"
+        raise RuntimeError, "Must give option \"#{k}\". Given options: #{resource_options}"
       end
     end
     complete_options = default_options.clone
     complete_options.merge!(resource_options)
   end
+
+  def need_update?(required_options, existing_options)
+    !(required_options.to_a - existing_options.to_a).empty?
+  end
+
 end
