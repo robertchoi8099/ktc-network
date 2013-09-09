@@ -27,7 +27,8 @@ def load_current_resource
     "cidr" => nil,
     "ip_version" => 4
   }
-  @complete_options = get_complete_options default_options, @new_resource.options
+  compiled_options = compile_options @new_resource.options, @new_resource.search_id
+  @complete_options = get_complete_options default_options, compiled_options
   @current_resource.entity = find_existing_entity "subnets", @complete_options
 end
 

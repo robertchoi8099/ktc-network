@@ -24,17 +24,22 @@ def load_current_resource
 
   # load the router from quantum if it exists
   # fog returns nil if its not found
-  if (@new_resource.action.include? :add_interface)
+  if @new_resource.action.include? :add_interface
     default_options = {
       "id" => nil,
       "subnet_id" => nil
+    }
+  elsif @new_resource.action.include? :update
+    default_options = {
+      "id" => nil
     }
   else
     default_options = {
       "name" => nil
     }
   end
-  @complete_options = get_complete_options default_options, @new_resource.options
+  compiled_options = compile_options @new_resource.options, @new_resource.search_id
+  @complete_options = get_complete_options default_options, compiled_options
   @current_resource.entity = find_existing_entity "routers", @complete_options
 end
 
@@ -54,6 +59,22 @@ action :create do
   store_id_in_attr "router", id
 end
 
+action :update do
+  if @current_resource.entity
+    if need_update? @current_resource.entity, @complete_options
+      resp = send_request "update_router", @complete_options, @current_resource.entity["id"]
+      Chef::Log.info("Updated router: #{resp[:body]["router"]}")
+      new_resource.updated_by_last_action(true)
+    else
+      Chef::Log.info("Router already has the same options.. Not updating.")
+      Chef::Log.info("Existing router: #{@current_resource.entity}")
+      new_resource.updated_by_last_action(false)
+    end
+  else
+    raise RuntimeError, "Unable to find Router: \"id\"=>\"#{@complete_options["id"]}\""
+  end
+end
+ 
 action :add_interface do
   load_current_resource
   if @current_resource.entity
