@@ -9,16 +9,18 @@ module KTCNetwork
     elsif entity_list.length == 1
       entity = entity_list[0]
     else
-      msg = "Found multiple existing #{list_type}: #{entity_list}\n"\
+      msg = "Found multiple existing #{list_type}:\n"\
+            "#{entity_list.join("\n")}\n"\
             "Need more specific options. Stop here."
       raise RuntimeError, msg
     end
     entity
   end
 
-  def store_id_in_attr(entity_type, id)
-    node.set["openstack"]["network"]["l3"]["#{entity_type}_id"] = id
-    Chef::Log.info "Set node['openstack']['network']['l3']['#{entity_type}_id'] to '#{id}'"
+  def store_id_in_attr(id, attr_path)
+    attr_name = "node.set.#{attr_path}"
+	eval "#{attr_name} = '#{id}'"
+    Chef::Log.info "Set #{attr_name} to '#{id}'"
   end
   
   def send_request(request, entity_options={}, *args)
