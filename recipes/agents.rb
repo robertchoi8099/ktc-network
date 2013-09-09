@@ -13,7 +13,8 @@ set_database_servers "network"
 
 platform_options = node["openstack"]["network"]["platform"]
 
-driver_name = node["openstack"]["network"]["interface_driver"].split('.').last.downcase
+driver_name = node["openstack"]["network"]["interface_driver"]
+driver_name = driver_name.split('.').last.downcase
 main_plugin = node["openstack"]["network"]["interface_driver_map"][driver_name]
 
 include_recipe "ktc-network::common"
