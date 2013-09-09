@@ -56,12 +56,14 @@ action :create do
     id = @current_resource.entity["id"]
     new_resource.updated_by_last_action(false)
   end
-  store_id_in_attr "router", id
+  if @new_resource.store_id 
+    store_id_in_attr id, @new_resource.store_id
+  end
 end
 
 action :update do
   if @current_resource.entity
-    if need_update? @current_resource.entity, @complete_options
+    if need_update? @complete_options, @current_resource.entity
       resp = send_request "update_router", @complete_options, @current_resource.entity["id"]
       Chef::Log.info("Updated router: #{resp[:body]["router"]}")
       new_resource.updated_by_last_action(true)
@@ -81,17 +83,25 @@ action :add_interface do
     id = @current_resource.entity["id"]
     subnet_id = @complete_options["subnet_id"]
     filter_options = {
-      "device_id" => id,
-      "subnet_id" => subnet_id
+      "device_id" => id
     }
-    port = find_existing_entity "ports", filter_options
-    if !port 
+    port_list = send_request("list_ports", filter_options)[:body]["ports"]
+    existing_port = nil
+    port_list.each do |port|
+      port["fixed_ips"].each do |f|
+        if f["subnet_id"] == subnet_id
+          existing_port = port 
+          break
+        end
+      end
+    end
+    if !existing_port 
       resp = send_request "add_router_interface", @complete_options, id, subnet_id
       Chef::Log.info("Added Router interface: #{resp[:body]}")
       new_resource.updated_by_last_action(true)
     else
       Chef::Log.info("Router already has a port.. Not adding.")
-      Chef::Log.info("Existing port: #{port}")
+      Chef::Log.info("Existing port: #{existing_port}")
       new_resource.updated_by_last_action(false)
     end
   else
