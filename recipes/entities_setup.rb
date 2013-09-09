@@ -36,6 +36,7 @@ ktc_network_router "Create Private Router" do
     "name" => node["openstack"]["network"]["l3"]["router_name"],
     "multihost:network_id" => :network
   )
+  store_id    "openstack.network.l3.router_id"
   action :create
 end
 
@@ -116,7 +117,7 @@ ktc_network_router "Set Private Router's gateway to Floating Network" do
   user_name   node["openstack"]["network"]["service_user"]
   search_id(
     :router => {
-      "name" => node["openstack"]["network"]["l3"]["router_name"],
+      "name" => node["openstack"]["network"]["l3"]["router_name"]
     },
     :network => floating_net_options
   )
