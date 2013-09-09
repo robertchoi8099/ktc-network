@@ -18,6 +18,7 @@
 ##
 
 include_attribute "openstack-network::default"
+include_attribute "ktc-base::users"
 
 default["openstack"]["network"]["api"]["agent"]["agent_report_interval"] = 4
 default["openstack"]["network"]["rabbit_server_chef_role"] = "ktc-messaging"
