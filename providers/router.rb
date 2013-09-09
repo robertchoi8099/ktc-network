@@ -44,7 +44,6 @@ def load_current_resource
 end
 
 action :create do
-  load_current_resource 
   if !@current_resource.entity
     resp = send_request "create_router", @complete_options, @complete_options["name"]
     Chef::Log.info("Created router: #{resp[:body]["router"]}")
@@ -78,7 +77,6 @@ action :update do
 end
  
 action :add_interface do
-  load_current_resource
   if @current_resource.entity
     id = @current_resource.entity["id"]
     subnet_id = @complete_options["subnet_id"]

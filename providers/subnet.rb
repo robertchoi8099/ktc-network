@@ -33,17 +33,13 @@ def load_current_resource
 end
 
 action :create do
-  load_current_resource
   if !@current_resource.entity
     resp = send_request "create_subnet", @complete_options, @complete_options["network_id"], @complete_options["cidr"], @complete_options["ip_version"]
     Chef::Log.info("Created subnet: #{resp[:body]["subnet"]}")
-    id = resp[:body]["subnet"]["id"]
     new_resource.updated_by_last_action(true)
   else
     Chef::Log.info("Subnet already exists.. Not creating.")
     Chef::Log.info("Existing subnet: #{@current_resource.entity}")
-    id = @current_resource.entity["id"]
     new_resource.updated_by_last_action(false)
   end
-  store_id_in_attr "subnet", id
 end
