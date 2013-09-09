@@ -29,17 +29,13 @@ def load_current_resource
 end
 
 action :create do
-  load_current_resource
   if !@current_resource.entity
     resp = send_request "create_network", @complete_options
     Chef::Log.info("Created network: #{resp[:body]["network"]}")
-    id = resp[:body]["network"]["id"]
     new_resource.updated_by_last_action(true)
   else
     Chef::Log.info("Network already exists.. Not creating.")
     Chef::Log.info("Existing network: #{@current_resource.entity}")
-    id = @current_resource.entity["id"]
     new_resource.updated_by_last_action(false)
   end
-  store_id_in_attr "network", id
 end
