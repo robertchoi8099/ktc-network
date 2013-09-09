@@ -43,3 +43,5 @@ default['sysctl']['params']['net']['ipv4']['ip_forward'] = 1
 default['sysctl']['params']['net']['bridge']['bridge-nf-call-iptables'] = 0
 default['sysctl']['params']['net']['bridge']['bridge-nf-call-ip6tables'] = 0
 default['sysctl']['params']['net']['bridge']['bridge-nf-call-arptables'] = 0
+
+node.default['authorization']['sudo']['users']<<"quantum"
