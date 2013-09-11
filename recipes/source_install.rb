@@ -11,6 +11,7 @@ user node["openstack"]["network"]["platform"]["user"] do
   supports :manage_home => true
 end
 
+include_recipe "git"
 git "#{Chef::Config[:file_cache_path]}/quantum" do
   repository "https://github.com/kt-cloudware/quantum.git"
   reference "develop"
