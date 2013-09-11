@@ -5,6 +5,7 @@
 # One of them will set DEBUG log level output
 debug = <%= node["openstack"]["network"]["debug"] %>
 verbose = <%= node["openstack"]["network"]["verbose"] %>
+host = <%=node[:fqdn]%>
 
 # Where to store Quantum state files.  This directory must be writable by the
 # user executing the agent.
