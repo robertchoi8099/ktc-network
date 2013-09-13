@@ -3,13 +3,10 @@
 # Recipe:: agents
 #
 include_recipe "sysctl::default"
+include_recipe "services"
+include_recipe "ktc-utils"
 
-class Chef::Recipe
-  include KTCUtils
-end
-
-set_rabbit_servers "network"
-set_database_servers "network"
+KTC::Attributes.set
 
 platform_options = node["openstack"]["network"]["platform"]
 
@@ -20,8 +17,6 @@ main_plugin = node["openstack"]["network"]["interface_driver_map"][driver_name]
 include_recipe "ktc-network::common"
 include_recipe "ktc-network::#{main_plugin}"
 
-# get metadata endpoint and set attribute for metadata_agent.ini to use it.
-set_service_endpoint "compute-metadata-api"
 ip = node["openstack"]["endpoints"]["compute-metadata-api"]["host"]
 port = node["openstack"]["endpoints"]["compute-metadata-api"]["port"]
 node.set["openstack"]["network"]["metadata"]["nova_metadata_ip"] = ip
