@@ -9,7 +9,7 @@ recipe		  "ktc-network::default", "Installs packages required for network-server
   supports os
 end
 
-depends "ktc-utils", "~> 0.2.1"
+depends "ktc-utils", "~> 0.3.1"
 depends "openstack-common", "~> 0.4.3"
 depends "openstack-network", "~> 7.0.0"
 depends "python", "~> 1.3.6"

@@ -2,16 +2,22 @@
 # Cookbook Name:: ktc-network
 # Recipe:: server
 #
-class Chef::Recipe
-  include KTCUtils
-end
 
-d = get_openstack_service_template(get_interface_address("management"), "9696")
-register_member("network-api", d)
+include_recipe "services"
+include_recipe "ktc-utils"
 
-set_rabbit_servers "network"
-set_database_servers "network"
-set_service_endpoint_ip "network-api"
+iface = KTC::Network.if_lookup "management"
+ip = KTC::Network.address "management"
+
+Services::Connection.new run_context: run_context
+network_api = Services::Member.new node.default.fqdn,
+  service: "network-api",
+  port: 9696,
+  proto: "tcp",
+  ip: ip
+
+network_api.save
+KTC::Attributes.set
 
 include_recipe "ktc-network::common"
 include_recipe "openstack-network::server"
