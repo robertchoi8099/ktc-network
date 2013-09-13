@@ -8,7 +8,14 @@ service_pass = service_password "openstack-network"
 tenant_name = node["openstack"]["network"]["service_tenant_name"]
 user_name = node["openstack"]["network"]["service_user"]
 
-private_net = node["openstack"]["network"]["linuxbridge"]["physical_network"] 
+private_net = node["openstack"]["network"]["ng_l3"]["private_network"] 
+private_router = node["openstack"]["network"]["ng_l3"]["private_router"]
+private_subnet = node["openstack"]["network"]["ng_l3"]["private_subnet"]
+private_cidr = node["openstack"]["network"]["ng_l3"]["private_cidr"]
+private_nameservers = node["openstack"]["network"]["ng_l3"]["private_nameservers"]
+floating_net = node["openstack"]["network"]["ng_l3"]["floating_network"]
+floating_cidrs = node["openstack"]["network"]["ng_l3"]["floating_cidrs"]
+ 
 private_net_options = {
   "name" => private_net,
   "multihost:multi_host" => true,
@@ -16,9 +23,7 @@ private_net_options = {
   "provider:physical_network" => private_net,
   "shared" => true
 }
-router_name = node["openstack"]["network"]["l3"]["router_name"]
-private_subnet = node["openstack"]["network"]["linuxbridge"]["physical_subnet"]
- 
+
 ktc_network_network "Create Private Network" do
   auth_uri    auth_uri
   user_pass   service_pass
@@ -37,7 +42,7 @@ ktc_network_router "Create Private Router" do
     :network => private_net_options
   )
   options(
-    "name" => router_name,
+    "name" => private_router,
     "multihost:network_id" => :network
   )
   store_id    "openstack.network.l3.router_id"
@@ -54,8 +59,8 @@ ktc_network_subnet "Create Private Subnet" do
   )
   options(
     "network_id" => :network,
-    "cidr" => node["openstack"]["network"]["linuxbridge"]["physical_cidr"],
-    "dns_nameservers" => node["openstack"]["network"]["linuxbridge"]["dns_nameservers"],
+    "cidr" => private_cidr,
+    "dns_nameservers" => private_nameservers,
     "name" => private_subnet
   )
   action :create
@@ -68,7 +73,7 @@ ktc_network_router "Add Private Subnet to Private Router" do
   user_name   user_name
   search_id(
     :router => {
-      "name" => router_name
+      "name" => private_router
     },
     :subnet => {
       "name" => private_subnet
@@ -82,7 +87,7 @@ ktc_network_router "Add Private Subnet to Private Router" do
 end
 
 floating_net_options = {
-  "name" => node["openstack"]["network"]["l3"]["floating_network"],
+  "name" => floating_net,
   "router:external" => true
 }
 
@@ -95,7 +100,7 @@ ktc_network_network "Create Floating Network" do
   action :create
 end
 
-node["openstack"]["network"]["l3"]["floating_ips"].each do |floating_ip|
+floating_cidrs.each do |cidr|
   ktc_network_subnet "Create Floating Subnet" do
     auth_uri    auth_uri
     user_pass   service_pass
@@ -106,7 +111,7 @@ node["openstack"]["network"]["l3"]["floating_ips"].each do |floating_ip|
     )
     options(
       "network_id" => :network,
-      "cidr" => floating_ip
+      "cidr" => cidr
     )
     action :create
   end
@@ -119,7 +124,7 @@ ktc_network_router "Set Private Router's gateway to Floating Network" do
   user_name   user_name
   search_id(
     :router => {
-      "name" => router_name
+      "name" => private_router
     },
     :network => floating_net_options
   )
