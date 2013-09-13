@@ -3,6 +3,8 @@
 # Recipe:: source_install 
 #
 
+include_recipe "sudo"
+include_recipe "git"
 include_recipe "python"
 
 user node["openstack"]["network"]["platform"]["user"] do
@@ -11,7 +13,14 @@ user node["openstack"]["network"]["platform"]["user"] do
   supports :manage_home => true
 end
 
-include_recipe "git"
+sudo "quantum_sudoers" do
+  user     "quantum"
+  host     "ALL"
+  runas    "root"
+  nopasswd true
+  commands ["/usr/local/bin/quantum-rootwrap"]
+end
+
 git "#{Chef::Config[:file_cache_path]}/quantum" do
   repository "https://github.com/kt-cloudware/quantum.git"
   reference "develop"
