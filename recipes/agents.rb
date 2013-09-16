@@ -27,7 +27,7 @@ node.set["openstack"]["network"]["metadata"]["nova_metadata_port"] = port
 chef_gem "chef-rewind"
 require 'chef/rewind'
 
-%w{ dhcp l3 metadata }.each do |agent|
+%w{ dhcp metadata }.each do |agent|
 
   cookbook_file "/etc/init/quantum-#{agent}-agent.conf" do
     source "etc/init/quantum-#{agent}-agent.conf"
