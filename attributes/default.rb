@@ -34,6 +34,8 @@ default["openstack"]["network"]["platform"]["quantum_dhcp_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_l3_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_metadata_agent_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"] = "quantum-plugin-linuxbridge-agent"
+default["openstack"]["compute"]["platform"]["quantum"]["git_repo"] = "https://github.com/kt-cloudware/quantum.git"
+default["openstack"]["compute"]["platform"]["quantum"]["git_ref"] = "ipc-develop"
 default["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-net-01"
 default["openstack"]["network"]["linuxbridge"]["firewall_driver"] = "quantum.agent.firewall.NoopFirewallDriver"
 

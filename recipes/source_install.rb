@@ -22,8 +22,8 @@ sudo "quantum_sudoers" do
 end
 
 git "#{Chef::Config[:file_cache_path]}/quantum" do
-  repository "https://github.com/kt-cloudware/quantum.git"
-  reference "develop"
+  repository node["openstack"]["compute"]["platform"]["quantum"]["git_repo"]
+  reference node["openstack"]["compute"]["platform"]["quantum"]["git_ref"]
   action :sync
   notifies :install, "python_pip[pip-requires]", :immediately
   notifies :run, "bash[install_quantum]", :immediately
