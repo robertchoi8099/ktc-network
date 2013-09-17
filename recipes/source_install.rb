@@ -21,15 +21,21 @@ sudo "quantum_sudoers" do
   commands ["/usr/local/bin/quantum-rootwrap"]
 end
 
+# Install pip-requires using ubuntu packages first, then install the rest with pip.
+# Prefer installing ubuntu pakcages to compiling python modules on nodes.
+node["openstack"]["network"]["platform"]["pip_requires_packages"].each do |pkg|
+  package pkg
+end
+
 git "#{Chef::Config[:file_cache_path]}/quantum" do
-  repository "https://github.com/kt-cloudware/quantum.git"
-  reference "develop"
+  repository node["openstack"]["compute"]["platform"]["quantum"]["git_repo"]
+  reference node["openstack"]["compute"]["platform"]["quantum"]["git_ref"]
   action :sync
-  notifies :install, "python_pip[pip-requires]", :immediately
+  notifies :install, "python_pip[quantum-pip-requires]", :immediately
   notifies :run, "bash[install_quantum]", :immediately
 end
 
-python_pip "pip-requires" do
+python_pip "quantum-pip-requires" do
   package_name "#{Chef::Config[:file_cache_path]}/quantum/tools/pip-requires"
   options "-r"
   action :nothing
