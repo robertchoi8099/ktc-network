@@ -43,7 +43,6 @@ default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"]
 default["openstack"]["compute"]["platform"]["quantum"]["git_repo"] = "https://github.com/kt-cloudware/quantum.git"
 default["openstack"]["compute"]["platform"]["quantum"]["git_ref"] = "ipc-develop"
 default["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-net-01"
-default["openstack"]["network"]["linuxbridge"]["firewall_driver"] = "quantum.agent.firewall.NoopFirewallDriver"
 
 # set sysctl properties
 default['sysctl']['params']['net']['ipv4']['ip_forward'] = 1
