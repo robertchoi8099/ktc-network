@@ -6,6 +6,7 @@ site :opscode
 metadata
 
 cookbook 'ktc-database', github: 'cloudware-cookbooks/ktc-database', branch: 'develop'
+cookbook 'ktc-etcd', github: 'cloudware-cookbooks/ktc-etcd', branch: 'develop'
 cookbook 'ktc-identity', github: 'cloudware-cookbooks/ktc-identity', branch: 'develop'
 cookbook 'ktc-memcached', github: 'cloudware-cookbooks/ktc-memcached', branch: 'develop'
 cookbook 'ktc-messaging', github: 'cloudware-cookbooks/ktc-messaging', branch: 'develop'
@@ -21,3 +22,4 @@ cookbook "openstack-network", github: "stackforge/cookbook-openstack-network"
 cookbook 'openstack-object-storage', github: 'stackforge/cookbook-openstack-object-storage'
 cookbook 'openstack-ops-database', github: 'stackforge/cookbook-openstack-ops-database'
 cookbook 'openstack-ops-messaging', github: 'stackforge/cookbook-openstack-ops-messaging'
+cookbook 'services', github: 'spheromak/services-cookbook'
