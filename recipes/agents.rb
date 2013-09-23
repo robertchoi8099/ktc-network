@@ -18,7 +18,6 @@ main_plugin = node["openstack"]["network"]["interface_driver_map"][driver_name]
 
 include_recipe "ktc-network::common"
 include_recipe "ktc-network::#{main_plugin}"
-include_recipe "ktc-network::post_install"
 
 ip = node["openstack"]["endpoints"]["compute-metadata-api"]["host"]
 port = node["openstack"]["endpoints"]["compute-metadata-api"]["port"]
