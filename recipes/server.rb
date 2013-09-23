@@ -20,7 +20,6 @@ network_api.save
 KTC::Attributes.set
 
 include_recipe "ktc-network::common"
-include_recipe "openstack-network::server"
 
 chef_gem "chef-rewind"
 require 'chef/rewind'
@@ -30,6 +29,10 @@ cookbook_file "/etc/init/quantum-server.conf" do
   action :create
 end
 
+# start quantum-server later than quantum-server init script is created
+include_recipe "openstack-network::server"
+
 rewind :service => "quantum-server" do
   provider Chef::Provider::Service::Upstart
+  action [:enable, :start]
 end
