@@ -22,20 +22,7 @@ def load_current_resource
   @current_resource.user_name     @new_resource.user_name
   @current_resource.options     @new_resource.options
 
-  if @new_resource.action.include? :add_interface
-    default_options = {
-      "id" => nil,
-      "subnet_id" => nil
-    }
-  elsif @new_resource.action.include? :update
-    default_options = {
-      "id" => nil
-    }
-  else
-    default_options = {
-      "name" => nil
-    }
-  end
+  default_options = _get_default_options
   compiled_options = compile_options @new_resource.options, @new_resource.search_id
   @complete_options = get_complete_options default_options, compiled_options
   @current_resource.entity = find_existing_entity "routers", @complete_options
@@ -103,4 +90,23 @@ action :add_interface do
   else
     raise RuntimeError, "Unable to find Router: \"id\"=>\"#{@complete_options["id"]}\""
   end
+end
+
+private
+def _get_default_options
+  if @new_resource.action.include? :add_interface
+    default_options = {
+      "id" => nil,
+      "subnet_id" => nil
+    }
+  elsif @new_resource.action.include? :update
+    default_options = {
+      "id" => nil
+    }
+  else
+    default_options = {
+      "name" => nil
+    }
+  end
+  default_options
 end
