@@ -8,11 +8,11 @@ service_pass = service_password "openstack-network"
 tenant_name = node["openstack"]["network"]["service_tenant_name"]
 user_name = node["openstack"]["network"]["service_user"]
 
-private_net = node["openstack"]["network"]["ng_l3"]["private_network"] 
+private_net = node["openstack"]["network"]["ng_l3"]["private_network"]
 private_subnet = node["openstack"]["network"]["ng_l3"]["private_subnet"]
 private_cidr = node["openstack"]["network"]["ng_l3"]["private_cidr"]
 private_nameservers = node["openstack"]["network"]["ng_l3"]["private_nameservers"]
- 
+
 private_net_options = {
   "name" => private_net,
   "multihost:multi_host" => true,

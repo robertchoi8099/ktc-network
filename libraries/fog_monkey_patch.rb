@@ -17,18 +17,13 @@ module Fog
       class Real
         def create_network(options = {})
           data = { 'network' => {} }
-    
+
           vanilla_options = [
             :name,
             :shared,
             :admin_state_up,
             :tenant_id
           ]
-    
-#          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
-#            data['network'][key] = options[key]
-#          end
-          data['network'].merge! filter_options(vanilla_options, options)    
 
           provider_options = [
             :router_external,
@@ -37,7 +32,7 @@ module Fog
             :provider_physical_network,
             :multihost_multi_host
           ]
-    
+
           aliases = {
             :provider_network_type     => 'provider:network_type',
             :provider_physical_network => 'provider:physical_network',
@@ -45,13 +40,9 @@ module Fog
             :router_external           => 'router:external',
             :multihost_multi_host      => 'multihost:multi_host'
           }
-    
-#          provider_options.reject{ |o| options[o].nil? }.each do |key|
-#            aliased_key = aliases[key] || key
-#            data['network'][aliased_key] = options[key]
-#          end
-          data['network'].merge! filter_options(provider_options, options, aliases)
-    
+
+          data['network'].merge! osum(vanilla_options, provider_options, options, aliases)
+
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => [201],
@@ -66,7 +57,7 @@ module Fog
               'name' => name,
             }
           }
-  
+
           vanilla_options = [
             :admin_state_up,
             :tenant_id,
@@ -75,26 +66,17 @@ module Fog
             :status,
             :subnet_id,
           ]
-  
-#          vanilla_options.reject{ |o| options[o].nil? }.each do |key|
-#            data['router'][key] = options[key]
-#          end
-          data['network'].merge! filter_options(vanilla_options, options)    
-  
+
           provider_options = [
             :multihost_network_id
           ]
-  
+
           aliases = {
             :multihost_network_id => 'multihost:network_id'
           }
-  
-#          provider_options.reject{ |o| options[o].nil? }.each do |key|
-#            aliased_key = aliases[key] || key
-#            data['router'][aliased_key] = options[key]
-#          end
-          data['network'].merge! filter_options(provider_options, options, aliases) 
-  
+
+          data['router'].merge! osum(vanilla_options, provider_options, options, aliases)
+
           request(
             :body     => Fog::JSON.encode(data),
             :expects  => [201],
@@ -104,9 +86,10 @@ module Fog
         end
 
         private
-        def filter_options(acceptable_options, options, aliases = {})
+        def osum(vanilla_options, provider_options, options, aliases)
           data = {}
-          acceptable_options.reject{ |o| options[o].nil? }.each do |key|
+          joined_options = vanilla_options | provider_options
+          joined_options.reject { |o| options[o].nil? }.each do |key|
             aliased_key = aliases[key] || key
             data[aliased_key] = options[key]
           end

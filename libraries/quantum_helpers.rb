@@ -12,21 +12,21 @@ module KTC
         entity = entity_list[0]
       else
         msg = "Found multiple existing #{list_type}:\n"\
-              "#{entity_list.join("\n")}\n"\
-              "Need more specific options. Stop here."
-        raise RuntimeError, msg
+          "#{entity_list.join("\n")}\n"\
+            "Need more specific options. Stop here."
+          raise RuntimeError, msg
       end
       entity
     end
-  
+
     def store_id_in_attr(id, attr_path)
       attr_name = "node.set.#{attr_path}"
       eval "#{attr_name} = '#{id}'"
       Chef::Log.info "Set #{attr_name} to '#{id}'"
     end
-    
-    def send_request(request, entity_options={}, *args)
-      options = Hash[entity_options.map { |k, v| [k.gsub(':','_').to_sym, v] }]
+
+    def send_request(request, entity_options = {}, *args)
+      options = Hash[entity_options.map { |k, v| [k.gsub(':', '_').to_sym, v] }]
       begin
         resp = @quantum.send(request, *args, options)
       rescue Exception => e
@@ -34,7 +34,7 @@ module KTC
         raise e
       end
     end
-  
+
     def get_id_from_macro(macro, search_map)
       macro_list = [:router, :network, :subnet, :port]
       if macro_list.include? macro
@@ -49,7 +49,7 @@ module KTC
       end
       id
     end
-      
+
     def compile_options(options, search_map)
       compiled_options = {}
       options.each do |k, v|
@@ -64,20 +64,23 @@ module KTC
       end
       compiled_options
     end
-  
+
     def get_complete_options(default_options, resource_options)
       default_options.each do |k, v|
         if (v == nil) && (!resource_options.has_key? k)
-          raise RuntimeError, "Must give option \"#{k}\". Given options: #{resource_options}"
+          raise(
+            RuntimeError,
+            "Must give option \"#{k}\". Given options: #{resource_options}"
+          )
         end
       end
       complete_options = default_options.clone
       complete_options.merge!(resource_options)
     end
-  
+
     def need_update?(required_options, existing_options)
       !(required_options.to_a - existing_options.to_a).empty?
     end
-  
+
   end
 end
