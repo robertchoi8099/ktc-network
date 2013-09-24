@@ -7,10 +7,12 @@ end
 def initialize(new_resource, run_context)
   super
   # create the fog connection
-  conn = Connector.new             :auth_uri  => new_resource.auth_uri,
-                                 :api_key   => new_resource.user_pass,
-                                 :user      => new_resource.user_name,
-                                 :tenant    => new_resource.tenant_name
+  conn = Connector.new(
+    :auth_uri  => new_resource.auth_uri,
+    :api_key   => new_resource.user_pass,
+    :user      => new_resource.user_name,
+    :tenant    => new_resource.tenant_name
+  )
   @quantum = conn.net
 end
 
@@ -34,7 +36,10 @@ end
 
 action :create do
   if !@current_resource.entity
-    resp = send_request "create_subnet", @complete_options, @complete_options["network_id"], @complete_options["cidr"], @complete_options["ip_version"]
+    resp = send_request(
+      "create_subnet", @complete_options, @complete_options["network_id"],
+      @complete_options["cidr"], @complete_options["ip_version"]
+    )
     Chef::Log.info("Created subnet: #{resp[:body]["subnet"]}")
     new_resource.updated_by_last_action(true)
   else

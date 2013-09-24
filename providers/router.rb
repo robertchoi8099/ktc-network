@@ -7,10 +7,12 @@ end
 def initialize(new_resource, run_context)
   super
   # create the fog connection
-  conn = Connector.new             :auth_uri  => new_resource.auth_uri,
-                                 :api_key   => new_resource.user_pass,
-                                 :user      => new_resource.user_name,
-                                 :tenant    => new_resource.tenant_name
+  conn = Connector.new(
+    :auth_uri  => new_resource.auth_uri,
+    :api_key   => new_resource.user_pass,
+    :user      => new_resource.user_name,
+    :tenant    => new_resource.tenant_name
+  )
   @quantum = conn.net
 end
 
@@ -40,7 +42,7 @@ action :create do
     id = @current_resource.entity["id"]
     new_resource.updated_by_last_action(false)
   end
-  if @new_resource.store_id 
+  if @new_resource.store_id
     store_id_in_attr id, @new_resource.store_id
   end
 end
@@ -48,7 +50,9 @@ end
 action :update do
   if @current_resource.entity
     if need_update? @complete_options, @current_resource.entity
-      resp = send_request "update_router", @complete_options, @current_resource.entity["id"]
+      resp = send_request(
+        "update_router", @complete_options, @current_resource.entity["id"]
+      )
       Chef::Log.info("Updated router: #{resp[:body]["router"]}")
       new_resource.updated_by_last_action(true)
     else
@@ -60,7 +64,7 @@ action :update do
     raise RuntimeError, "Unable to find Router: \"id\"=>\"#{@complete_options["id"]}\""
   end
 end
- 
+
 action :add_interface do
   if @current_resource.entity
     id = @current_resource.entity["id"]
@@ -73,12 +77,12 @@ action :add_interface do
     port_list.each do |port|
       port["fixed_ips"].each do |f|
         if f["subnet_id"] == subnet_id
-          existing_port = port 
+          existing_port = port
           break
         end
       end
     end
-    if !existing_port 
+    if !existing_port
       resp = send_request "add_router_interface", @complete_options, id, subnet_id
       Chef::Log.info("Added Router interface: #{resp[:body]}")
       new_resource.updated_by_last_action(true)

@@ -48,4 +48,3 @@ end
 rewind :package => "quantum-plugin-#{main_plugin}" do
   action :nothing
 end
-

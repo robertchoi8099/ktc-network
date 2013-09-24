@@ -7,10 +7,12 @@ end
 def initialize(new_resource, run_context)
   super
   # create the fog connection
-  conn = Connector.new             :auth_uri  => new_resource.auth_uri,
-                                 :api_key   => new_resource.user_pass,
-                                 :user      => new_resource.user_name,
-                                 :tenant    => new_resource.tenant_name
+  conn = Connector.new(
+    :auth_uri  => new_resource.auth_uri,
+    :api_key   => new_resource.user_pass,
+    :user      => new_resource.user_name,
+    :tenant    => new_resource.tenant_name
+  )
   @quantum = conn.net
 end
 
