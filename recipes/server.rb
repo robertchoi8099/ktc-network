@@ -17,6 +17,7 @@ network_api = Services::Member.new node.default.fqdn,
   ip: ip
 
 network_api.save
+KTC::Network.add_service_nat "network-api", 9696
 KTC::Attributes.set
 
 include_recipe "ktc-network::common"
