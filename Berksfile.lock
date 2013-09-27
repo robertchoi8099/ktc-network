@@ -11,12 +11,12 @@
     "ktc-database": {
       "locked_version": "0.2.0",
       "git": "git://github.com/cloudware-cookbooks/ktc-database.git",
-      "ref": "4d8698607cde9c0e9f4e21e6ddda425890f7cedb"
+      "ref": "24b6ad2fa21ede5f454bddc04dc4b288d8c19106"
     },
     "ktc-etcd": {
       "locked_version": "1.1.4",
       "git": "git://github.com/cloudware-cookbooks/ktc-etcd.git",
-      "ref": "1cb47919dc699fdd423d377e81a0ae960cb362c6"
+      "ref": "85ff6bf8451dec06dae181edecb594e0a85c4df3"
     },
     "ktc-identity": {
       "locked_version": "1.1.0",
@@ -31,12 +31,12 @@
     "ktc-messaging": {
       "locked_version": "0.1.0",
       "git": "git://github.com/cloudware-cookbooks/ktc-messaging.git",
-      "ref": "24cf804c9a4b87b7f1fab7e61682111d1612b52a"
+      "ref": "2985e11992a376f7ef576e8690b91866cdc9235d"
     },
     "ktc-utils": {
-      "locked_version": "0.3.3",
+      "locked_version": "0.3.2",
       "git": "git://github.com/cloudware-cookbooks/ktc-utils.git",
-      "ref": "4ae9af81256bc8d6b9d4063c255553f0821b9969"
+      "ref": "2ee6a15c28bd23ae7eff809060374e9d7412c733"
     },
     "openstack-block-storage": {
       "locked_version": "7.0.3",
@@ -51,7 +51,7 @@
     "openstack-compute": {
       "locked_version": "7.0.0",
       "git": "git://github.com/stackforge/cookbook-openstack-compute.git",
-      "ref": "b03944170afa253c216d0306750ac3ec136e3698"
+      "ref": "2dd5a554dee644621551417906dec098c1f7f70f"
     },
     "openstack-dashboard": {
       "locked_version": "7.0.0",
@@ -61,12 +61,12 @@
     "openstack-identity": {
       "locked_version": "7.0.0",
       "git": "git://github.com/stackforge/cookbook-openstack-identity.git",
-      "ref": "2e6b8b9c6788ae28fbc362c77c53a51c040b49a6"
+      "ref": "f276a92eac9a781845147b0af71d627a60b75da6"
     },
     "openstack-image": {
       "locked_version": "7.0.0",
       "git": "git://github.com/stackforge/cookbook-openstack-image.git",
-      "ref": "5a272d21494c012aa6ab8a29d536fcb39b11f7d5"
+      "ref": "b42df8e3bcbec626d0691f7c84c9166c7d2c890c"
     },
     "openstack-metering": {
       "locked_version": "7.0.4",
@@ -76,12 +76,12 @@
     "openstack-network": {
       "locked_version": "7.0.3",
       "git": "git://github.com/stackforge/cookbook-openstack-network.git",
-      "ref": "b2b237a78c755492b9e51110704da900257a666d"
+      "ref": "e3486bc67ba96e9fc260aabc2fda3712c55e591e"
     },
     "openstack-object-storage": {
       "locked_version": "1.1.0",
       "git": "git://github.com/stackforge/cookbook-openstack-object-storage.git",
-      "ref": "305b536ab409f806615926a32e5f3bb404d94d38"
+      "ref": "54b7e7719af5edff343971d570bdfd2e8f162720"
     },
     "openstack-ops-database": {
       "locked_version": "7.0.0",
@@ -111,19 +111,13 @@
       "locked_version": "0.3.3"
     },
     "git": {
-      "locked_version": "2.7.0"
+      "locked_version": "2.6.0"
     },
     "dmg": {
-      "locked_version": "2.0.4"
+      "locked_version": "2.0.0"
     },
     "windows": {
-      "locked_version": "1.11.0"
-    },
-    "chef_handler": {
-      "locked_version": "1.1.4"
-    },
-    "runit": {
-      "locked_version": "1.3.0"
+      "locked_version": "1.10.0"
     },
     "sudo": {
       "locked_version": "2.2.2"
@@ -136,24 +130,6 @@
     },
     "galera": {
       "locked_version": "0.4.1"
-    },
-    "simple_iptables": {
-      "locked_version": "0.3.0"
-    },
-    "etcd": {
-      "locked_version": "1.3.1"
-    },
-    "ark": {
-      "locked_version": "0.3.2"
-    },
-    "partial_search": {
-      "locked_version": "1.0.6"
-    },
-    "users": {
-      "locked_version": "1.6.0"
-    },
-    "selinux": {
-      "locked_version": "0.5.6"
     },
     "database": {
       "locked_version": "1.5.2"
@@ -177,7 +153,7 @@
       "locked_version": "1.8.4"
     },
     "memcached": {
-      "locked_version": "1.6.0"
+      "locked_version": "1.5.0"
     },
     "statsd": {
       "locked_version": "0.0.1"
