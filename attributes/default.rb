@@ -42,8 +42,8 @@ default["openstack"]["network"]["platform"]["pip_requires_packages"] = %w{
   python-quantumclient
 }
 default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"] = "quantum-plugin-linuxbridge-agent"
-default["openstack"]["compute"]["platform"]["quantum"]["git_repo"] = "https://github.com/kt-cloudware/quantum.git"
-default["openstack"]["compute"]["platform"]["quantum"]["git_ref"] = "ipc-develop"
+default["openstack"]["network"]["platform"]["quantum"]["git_repo"] = "https://github.com/kt-cloudware/quantum.git"
+default["openstack"]["network"]["platform"]["quantum"]["git_ref"] = "ipc-develop"
 default["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-net-01"
 
 # set sysctl properties
