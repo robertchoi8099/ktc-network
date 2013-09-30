@@ -48,6 +48,6 @@ default["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-ne
 
 # set sysctl properties
 default['sysctl']['params']['net']['ipv4']['ip_forward'] = 1
-default['sysctl']['params']['net']['bridge']['bridge-nf-call-iptables'] = 0
-default['sysctl']['params']['net']['bridge']['bridge-nf-call-ip6tables'] = 0
-default['sysctl']['params']['net']['bridge']['bridge-nf-call-arptables'] = 0
+default['sysctl']['params']['net']['bridge']['bridge-nf-call-iptables'] = 1
+default['sysctl']['params']['net']['bridge']['bridge-nf-call-ip6tables'] = 1
+default['sysctl']['params']['net']['bridge']['bridge-nf-call-arptables'] = 1
