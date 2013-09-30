@@ -26,6 +26,7 @@ default["openstack"]["network"]["interface_driver"] = "quantum.agent.linux.inter
 default["openstack"]["network"]["use_namespaces"] = "False"
 default["openstack"]["network"]["enable_multi_host"] = "True"
 default["openstack"]["network"]["l3"]["external_network_bridge"]= ""
+default["openstack"]["network"]["dhcp"]["enable_isolated_metadata"] = "True"
 default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"] = "quantum-plugin-linuxbridge-agent"
 default["openstack"]["network"]["platform"]["quantum_packages"] = []
 default["openstack"]["network"]["platform"]["quantum_server_packages"] = []
@@ -38,14 +39,15 @@ default["openstack"]["network"]["platform"]["pip_requires_packages"] = %w{
   python-routes python-amqplib python-anyjson python-eventlet python-greenlet 
   python-httplib2 python-iso8601 python-kombu python-netaddr python-pyudev 
   python-sqlalchemy python-webob python-keystoneclient alembic python-oslo.config
+  python-quantumclient
 }
 default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"] = "quantum-plugin-linuxbridge-agent"
-default["openstack"]["compute"]["platform"]["quantum"]["git_repo"] = "https://github.com/kt-cloudware/quantum.git"
-default["openstack"]["compute"]["platform"]["quantum"]["git_ref"] = "ipc-develop"
+default["openstack"]["network"]["platform"]["quantum"]["git_repo"] = "https://github.com/kt-cloudware/quantum.git"
+default["openstack"]["network"]["platform"]["quantum"]["git_ref"] = "ipc-develop"
 default["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-net-01"
 
 # set sysctl properties
 default['sysctl']['params']['net']['ipv4']['ip_forward'] = 1
-default['sysctl']['params']['net']['bridge']['bridge-nf-call-iptables'] = 0
-default['sysctl']['params']['net']['bridge']['bridge-nf-call-ip6tables'] = 0
-default['sysctl']['params']['net']['bridge']['bridge-nf-call-arptables'] = 0
+default['sysctl']['params']['net']['bridge']['bridge-nf-call-iptables'] = 1
+default['sysctl']['params']['net']['bridge']['bridge-nf-call-ip6tables'] = 1
+default['sysctl']['params']['net']['bridge']['bridge-nf-call-arptables'] = 1
