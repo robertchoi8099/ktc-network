@@ -31,12 +31,22 @@ suites:
     mysql:
       allow_remote_root: true
       root_network_acl: '%'
+      server_debian_password: 'debian'
+      server_root_password: 'root'
+      server_repl_password: 'repl'
     openstack:
       developer_mode: true
       endpoints:
         compute-metadata-api:
           host: 'xxx.xxx.xxx.xxx'
           port: '8775'
+      network:
+        ng_l3:
+          physical_network: 'private-net-01'
+          private_subnet: 'private-subnet-01'
+          private_cidr: '14.49.47.0/24'
+          private_nameservers:
+            - '8.8.8.8'
     authorization:
       sudo:
         users:
