@@ -41,7 +41,8 @@ ktc_network_subnet "Create Private Subnet" do
     "network_id" => :network,
     "cidr" => private_cidr,
     "dns_nameservers" => private_nameservers,
-    "name" => private_subnet
+    "name" => private_subnet,
+    "gateway_ip" => :null
   )
   action :create
 end
