@@ -8,6 +8,7 @@ rescue LoadError
   require 'fog'
 end
 require 'fog/openstack/requests/network/create_network'
+require 'fog/openstack/requests/network/create_subnet'
 require 'fog/openstack/requests/network/create_router'
 
 module Fog
@@ -51,6 +52,28 @@ module Fog
           )
         end
 
+        def create_subnet(network_id, cidr, ip_version, options = {})
+          data = {
+            'subnet' => {
+              'network_id' => network_id,
+              'cidr'       => cidr,
+              'ip_version' => ip_version,
+            }
+          }
+
+          vanilla_options = [:name, :gateway_ip, :allocation_pools,
+            :dns_nameservers, :host_routes, :enable_dhcp,
+            :tenant_id]
+          data['subnet'].merge! osum(vanilla_options, [], options, {})
+
+          request(
+            :body     => Fog::JSON.encode(data),
+            :expects  => [201],
+            :method   => 'POST',
+            :path     => 'subnets'
+          )
+        end
+
         def create_router(name, options = {})
           data = {
             'router' => {
@@ -91,7 +114,9 @@ module Fog
           joined_options = vanilla_options | provider_options
           joined_options.reject { |o| options[o].nil? }.each do |key|
             aliased_key = aliases[key] || key
-            data[aliased_key] = options[key]
+            # change keyword :null to nil then JSON.encode will encode it to null
+            value = (options[key] == :null) ? nil : options[key]
+            data[aliased_key] = value
           end
           data
         end

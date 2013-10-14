@@ -5,7 +5,7 @@ module KTC
       # reject array type options from request options because those cause quantum internal server error
       array_rejected = request_options.reject { |k, v| v.kind_of? Array }
       response = send_request "list_#{list_type}", array_rejected
-      entity_list = response[:body]["#{list_type}"]
+      entity_list = response[:body][list_type]
       if entity_list.empty?
         entity = nil
       elsif entity_list.length == 1
@@ -55,7 +55,7 @@ module KTC
       options.each do |k, v|
         if v.kind_of? Hash
           compiled_v = compile_options v, search_map
-        elsif v.kind_of? Symbol
+        elsif (v.kind_of? Symbol) && (v != :null)
           compiled_v = get_id_from_macro v, search_map
         else
           compiled_v = v
