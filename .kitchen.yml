@@ -15,6 +15,7 @@ platforms:
 suites:
 - name: default
   run_list:
+    - recipe[ktc-testing]
     - recipe[ktc-etcd]
     - recipe[ktc-database]
     - recipe[ktc-memcached]

@@ -3,6 +3,11 @@
     "ktc-network": {
       "path": "."
     },
+    "ktc-testing": {
+      "locked_version": "0.0.1",
+      "git": "git://github.com/cloudware-cookbooks/ktc-testing.git",
+      "ref": "588954102fd7d0a1569fa17bf84dd9e5ddc1b3a7"
+    },
     "ktc-database": {
       "locked_version": "0.1.0",
       "git": "git://github.com/cloudware-cookbooks/ktc-database.git",
@@ -123,6 +128,12 @@
     "sudo": {
       "locked_version": "2.1.4"
     },
+    "ubuntu": {
+      "locked_version": "1.1.2"
+    },
+    "apt": {
+      "locked_version": "2.1.1"
+    },
     "etcd": {
       "locked_version": "1.2.4"
     },
@@ -134,9 +145,6 @@
     },
     "users": {
       "locked_version": "1.1.4"
-    },
-    "apt": {
-      "locked_version": "2.1.1"
     },
     "selinux": {
       "locked_version": "0.5.6"
@@ -163,7 +171,7 @@
       "locked_version": "1.7.0"
     },
     "memcached": {
-      "locked_version": "1.5.0"
+      "locked_version": "1.6.0"
     },
     "statsd": {
       "locked_version": "0.0.1"

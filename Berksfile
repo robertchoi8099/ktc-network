@@ -5,6 +5,7 @@ site :opscode
 
 metadata
 
+cookbook 'ktc-testing', github: 'cloudware-cookbooks/ktc-testing'
 cookbook 'ktc-database', github: 'cloudware-cookbooks/ktc-database', branch: 'develop'
 cookbook 'ktc-etcd', github: 'cloudware-cookbooks/ktc-etcd', branch: 'develop'
 cookbook 'ktc-identity', github: 'cloudware-cookbooks/ktc-identity', branch: 'develop'
