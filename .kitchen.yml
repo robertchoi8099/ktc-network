@@ -43,6 +43,7 @@ suites:
           port: '8775'
       network:
         ng_l3:
+          setup_entities: true
           physical_network: 'private-net-01'
           private_subnet: 'private-subnet-01'
           private_cidr: '14.49.47.0/24'
