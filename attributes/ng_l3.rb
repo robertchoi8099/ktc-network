@@ -25,6 +25,7 @@ default["openstack"]["network"]["ng_l3"] = {
 #   "private_subnet" => "private-subnet-01",
 #   "private_cidr" => "xxx.xxx.xxx.0/22",
 #   "private_nameservers" => ["xxx.xxx.xxx.xxx"],
+#   "private_gateway_ip" => :null,
 #   "floating_network" => "floating-net",
 #   "floating_cidrs" => [
 #     "xxx.xxx.xxx.xxx/32",

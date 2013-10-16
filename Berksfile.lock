@@ -4,7 +4,7 @@
       "path": "."
     },
     "ktc-database": {
-      "locked_version": "0.1.0"
+      "locked_version": "0.2.0"
     },
     "ktc-etcd": {
       "locked_version": "1.1.4"
@@ -13,13 +13,13 @@
       "locked_version": "1.1.0"
     },
     "ktc-memcached": {
-      "locked_version": "0.2.0"
+      "locked_version": "0.2.1"
     },
     "ktc-messaging": {
       "locked_version": "0.1.0"
     },
     "ktc-testing": {
-      "locked_version": "0.0.2"
+      "locked_version": "0.0.3"
     },
     "git": {
       "locked_version": "2.6.0"
@@ -122,9 +122,6 @@
     },
     "simple_iptables": {
       "locked_version": "0.3.0"
-    },
-    "partial_search": {
-      "locked_version": "1.0.2"
     },
     "openstack-object-storage": {
       "locked_version": "1.1.0"
