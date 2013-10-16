@@ -2,6 +2,7 @@ include_attribute "ktc-network"
 
 # override this like the example below
 default["openstack"]["network"]["ng_l3"] = {
+  "setup_entities" => false,
   "private_network" => nil,
   "private_router" => nil,
   "private_subnet" => nil,
@@ -19,6 +20,7 @@ default["openstack"]["network"]["ng_l3"] = {
 #
 # override["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-net-01"
 # override["openstack"]["network"]["ng_l3"] = {
+#   "setup_entities" => true,
 #   "private_router" => "private-router-01",
 #   "private_subnet" => "private-subnet-01",
 #   "private_cidr" => "xxx.xxx.xxx.0/22",
