@@ -13,6 +13,7 @@ private_net = node["openstack"]["network"]["ng_l3"]["private_network"] ||
 private_subnet = node["openstack"]["network"]["ng_l3"]["private_subnet"]
 private_cidr = node["openstack"]["network"]["ng_l3"]["private_cidr"]
 private_nameservers = node["openstack"]["network"]["ng_l3"]["private_nameservers"]
+private_gateway_ip = node["openstack"]["network"]["ng_l3"]["private_gateway_ip"]
 
 private_net_options = {
   "name" => private_net,
@@ -42,7 +43,7 @@ ktc_network_subnet "Create Private Subnet" do
     "cidr" => private_cidr,
     "dns_nameservers" => private_nameservers,
     "name" => private_subnet,
-    "gateway_ip" => :null
+    "gateway_ip" => private_gateway_ip
   )
   action :create
 end
