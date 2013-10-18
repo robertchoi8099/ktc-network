@@ -53,7 +53,7 @@ package "quagga"
 
 service "quagga" do
   supports :status => true, :restart => true
-  action [ :enable, :start ]
+  action [:enable, :start]
 end
 
 template "/etc/quagga/daemons" do
