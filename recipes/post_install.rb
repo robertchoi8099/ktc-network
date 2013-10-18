@@ -17,11 +17,6 @@ when "ubuntu"
   end
 end
 
-#
-# Drop packets from VMs to management network
-#
-include_recipe "simple_iptables"
-
 private_cidr = node["openstack"]["network"]["ng_l3"]["private_cidr"]
 management_cidr = nil
 iface = KTC::Network.if_lookup "management"
@@ -32,6 +27,12 @@ node["network"]["interfaces"][iface]["routes"].each do |route|
     break
   end
 end
+rip_iface = KTC::Network.if_lookup node["openstack"]["network"]["quagga"]["rip_network"]
+
+#
+# Drop packets from VMs to management network
+#
+include_recipe "simple_iptables"
 
 simple_iptables_rule "ng-INPUT" do
   direction "INPUT"
@@ -43,4 +44,45 @@ simple_iptables_rule "ng-FORWARD" do
   direction "FORWARD"
   rule "-s #{private_cidr} -d #{management_cidr}"
   jump "DROP"
+end
+
+#
+# Quagga Settings
+#
+package "quagga"
+
+service "quagga" do
+  supports :status => true, :restart => true
+  action [ :enable, :start ]
+end
+
+template "/etc/quagga/daemons" do
+  source "quagga/daemons.erb"
+  owner "root"
+  group "root"
+  mode "00644"
+  action :create
+  notifies :restart, "service[quagga]", :delayed
+end
+
+template "/etc/quagga/zebra.conf" do
+  source "quagga/zebra.conf.erb"
+  owner "root"
+  group "root"
+  mode "00644"
+  action :create
+  notifies :restart, "service[quagga]", :delayed
+end
+
+template "/etc/quagga/ripd.conf" do
+  source "quagga/ripd.conf.erb"
+  owner "root"
+  group "root"
+  mode "00644"
+  action :create
+  variables(
+    :private_cidr => private_cidr,
+    :network => rip_iface
+  )
+  notifies :restart, "service[quagga]", :delayed
 end
