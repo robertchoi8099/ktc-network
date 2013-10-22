@@ -1,3 +1,3 @@
 include_attribute "modules::default"
 
-default["modules"] |= %w(loop bridge)
+default["modules"] ||= %w(loop bridge)
