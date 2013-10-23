@@ -28,8 +28,8 @@ node["openstack"]["network"]["platform"]["pip_requires_packages"].each do |pkg|
 end
 
 git "#{Chef::Config[:file_cache_path]}/quantum" do
-  repository node["openstack"]["compute"]["platform"]["quantum"]["git_repo"]
-  reference node["openstack"]["compute"]["platform"]["quantum"]["git_ref"]
+  repository node["openstack"]["network"]["platform"]["quantum"]["git_repo"]
+  reference node["openstack"]["network"]["platform"]["quantum"]["git_ref"]
   action :sync
   notifies :install, "python_pip[quantum-pip-requires]", :immediately
   notifies :run, "bash[install_quantum]", :immediately
