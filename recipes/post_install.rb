@@ -52,7 +52,7 @@ end
 package "quagga"
 
 service "quagga" do
-  supports :status => true, :restart => true
+  supports :restart => true
   action [:enable, :start]
 end
 
