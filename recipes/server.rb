@@ -10,7 +10,7 @@ iface = KTC::Network.if_lookup "management"
 ip = KTC::Network.address "management"
 
 Services::Connection.new run_context: run_context
-network_api = Services::Member.new node.default.fqdn,
+network_api = Services::Member.new node.fqdn,
   service: "network-api",
   port: 9696,
   proto: "tcp",
