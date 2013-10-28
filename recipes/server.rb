@@ -10,7 +10,7 @@ iface = KTC::Network.if_lookup "management"
 ip = KTC::Network.address "management"
 
 Services::Connection.new run_context: run_context
-network_api = Services::Member.new node.fqdn,
+network_api = Services::Member.new node["fqdn"],
   service: "network-api",
   port: 9696,
   proto: "tcp",
@@ -18,6 +18,9 @@ network_api = Services::Member.new node.fqdn,
 
 network_api.save
 KTC::Attributes.set
+
+# Use the managment address as the bind_address
+node.set["openstack"]["network"]["api"]["bind_interface"] = iface
 
 include_recipe "ktc-network::common"
 
