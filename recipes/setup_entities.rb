@@ -31,6 +31,7 @@ private_net_options = {
 }
 
 ktc_network_network "Create Heartbeat Network" do
+  only_if { heartbeat_net }
   auth_uri    auth_uri
   user_pass   service_pass
   tenant_name tenant_name
@@ -40,6 +41,7 @@ ktc_network_network "Create Heartbeat Network" do
 end
 
 ktc_network_subnet "Create Heartbeat Subnet" do
+  only_if { heartbeat_net }
   auth_uri    auth_uri
   user_pass   service_pass
   tenant_name tenant_name
@@ -58,6 +60,7 @@ ktc_network_subnet "Create Heartbeat Subnet" do
 end
 
 ktc_network_network "Create Private Network" do
+  only_if { private_net }
   auth_uri    auth_uri
   user_pass   service_pass
   tenant_name tenant_name
@@ -67,6 +70,7 @@ ktc_network_network "Create Private Network" do
 end
 
 ktc_network_subnet "Create Private Subnet" do
+  only_if { private_net }
   auth_uri    auth_uri
   user_pass   service_pass
   tenant_name tenant_name
