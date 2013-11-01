@@ -52,4 +52,5 @@ dnsmasq_config_file = /etc/quantum/dnsmasq.conf
 # Support multi-host networks
 enable_multi_host = <%= node["openstack"]["network"]["enable_multi_host"] %>
 
-enabled_networks = <%= node["openstack"]["network"]["ng_l3"]["private_network"] %>
+metadata_network = <%= node["openstack"]["network"]["ng_l3"]["private_network"] %>
+enabled_networks = <%= node["openstack"]["network"]["ng_l3"]["private_network"] %>,<%= node["openstack"]["network"]["ng_l3"]["heartbeat_network"] %>

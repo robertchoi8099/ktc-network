@@ -44,7 +44,6 @@ default["openstack"]["network"]["platform"]["pip_requires_packages"] = %w{
 default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"] = "quantum-plugin-linuxbridge-agent"
 default["openstack"]["network"]["platform"]["quantum"]["git_repo"] = "https://github.com/kt-cloudware/quantum.git"
 default["openstack"]["network"]["platform"]["quantum"]["git_ref"] = "ipc-develop"
-default["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-net-01"
 
 # set sysctl properties
 default['sysctl']['params']['net']['ipv4']['ip_forward'] = 1
