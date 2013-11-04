@@ -2,7 +2,7 @@ name          "ktc-network"
 maintainer    "KT Cloudware, Inc."
 description	  "Installs/Configures Openstack Network Service"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version '0.2.8'
+version '0.2.9'
 recipe		  "ktc-network::default", "Installs packages required for network-server"
 
 %w{ ubuntu fedora }.each do |os|
