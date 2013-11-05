@@ -18,7 +18,7 @@ main_plugin = node["openstack"]["network"]["interface_driver_map"][driver_name]
 
 case main_plugin
 when "linuxbridge"
- 
+
   rewind :template => "/etc/quantum/plugins/linuxbridge_conf.ini" do
     cookbook_name "ktc-network"
   end
