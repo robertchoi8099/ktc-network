@@ -17,6 +17,9 @@ route-map connected-to-rip permit 10
  match ip address prefix-list public
 !
 ip prefix-list public permit <%= @private_cidr %> le 32
+<% if node["openstack"]["network"]["ng_l3"]["heartbeat_network"] -%>
+ip prefix-list public permit <%= node["openstack"]["network"]["ng_l3"]["heartbeat_cidr"] %> le 32
+<% end %>
 !
 access-list 1 deny any
 !
