@@ -53,3 +53,18 @@ default['sysctl']['params']['net']['ipv4']['ip_forward'] = 1
 default['sysctl']['params']['net']['bridge']['bridge-nf-call-iptables'] = 1
 default['sysctl']['params']['net']['bridge']['bridge-nf-call-ip6tables'] = 1
 default['sysctl']['params']['net']['bridge']['bridge-nf-call-arptables'] = 1
+
+# process monitoring
+default["openstack"]["network"]["server_processes"] = [
+  { "name" => "quantum-server", "shortname" => "quantum-server" }
+]
+
+default["openstack"]["network"]["agent_processes"] = [
+  { "name" => "quantum-ns-metadata-proxy", "shortname" => "quantum-ns-meta" },
+  { "name" => "quantum-linuxbridge-agent", "shortname" => "quantum-linuxbr" },
+  { "name" => "quantum-dhcp-agent", "shortname" => "quantum-dhcp-ag" },
+  { "name" => "quantum-metadata-agent", "shortname" => "quantum-metadat" },
+  { "name" => "quagga/zebra", "shortname" => "zebra" },
+  { "name" => "quagga/ripd", "shortname" => "ripd" },
+  { "name" => "dnsmasq", "shortname" => "dnsmasq" }
+]

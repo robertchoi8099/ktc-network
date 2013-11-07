@@ -21,6 +21,8 @@ suites:
     - recipe[ktc-memcached]
     - recipe[ktc-messaging]
     - recipe[ktc-identity]
+    - recipe[sensu::default]
+    - recipe[collectd::client]
     - recipe[ktc-network]
     - recipe[ktc-network::compute]
   attributes:
