@@ -10,6 +10,7 @@ include_recipe "python"
 user node["openstack"]["network"]["platform"]["user"] do
   home "/var/lib/quantum"
   shell "/bin/false"
+  system  true
   supports :manage_home => true
 end
 
