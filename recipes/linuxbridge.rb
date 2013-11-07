@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-include_recipe "ktc-network::common"
-
 cookbook_file "/etc/init/quantum-plugin-linuxbridge-agent.conf" do
   source "etc/init/quantum-plugin-linuxbridge-agent.conf"
   action :create

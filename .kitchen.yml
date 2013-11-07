@@ -13,7 +13,7 @@ platforms:
     box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_chef-11.4.4.box
 
 suites:
-- name: default
+- name: controller
   run_list:
     - recipe[ktc-testing]
     - recipe[ktc-etcd]
@@ -24,6 +24,53 @@ suites:
     - recipe[sensu::default]
     - recipe[collectd::client]
     - recipe[ktc-network]
+  attributes:
+    etcd:
+      args: '-c 127.0.0.1:4001 -s 127.0.0.1:7001 -f'
+      servers:
+        - 127.0.0.1
+    ha_disabled: true
+    mysql:
+      allow_remote_root: true
+      root_network_acl: '%'
+      server_debian_password: 'debian'
+      server_root_password: 'root'
+      server_repl_password: 'repl'
+    openstack:
+      developer_mode: true
+      endpoints:
+        compute-metadata-api:
+          host: 'xxx.xxx.xxx.xxx'
+          port: '8775'
+      network:
+        ng_l3:
+          setup_entities: true
+          physical_network: 'private-net-01'
+          private_subnet: 'private-subnet-01'
+          private_cidr: '10.18.18.0/24'
+          private_nameservers:
+            - '8.8.8.8'
+          heartbeat_network: 'heartbeat'
+          heartbeat_subnet: 'heartbeat'
+          heartbeat_cidr: '10.10.10.0/24'
+          heartbeat_nameservers:
+            - '8.8.8.8'
+    authorization:
+      sudo:
+        users:
+          - vagrant
+        passwordless: true
+
+- name: compute
+  run_list:
+    - recipe[ktc-testing]
+    - recipe[ktc-etcd]
+    - recipe[ktc-database]
+    - recipe[ktc-memcached]
+    - recipe[ktc-messaging]
+    - recipe[ktc-identity]
+    - recipe[sensu::default]
+    - recipe[collectd::client]
     - recipe[ktc-network::compute]
   attributes:
     etcd:
