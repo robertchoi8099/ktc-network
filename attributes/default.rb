@@ -48,7 +48,11 @@ default["openstack"]["network"]["platform"]["quantum_linuxbridge_agent_service"]
 default["openstack"]["network"]["platform"]["quantum"]["git_repo"] = "https://github.com/kt-cloudware/quantum.git"
 default["openstack"]["network"]["platform"]["quantum"]["git_ref"] = "ipc-develop"
 
+# use syslog by default
 default["openstack"]["network"]["syslog"]["use"] = true
+
+# event notification
+default["openstack"]["network"]["notifiers"] = ["log_notifier", "rpc_notifier"]
 
 # set sysctl properties
 default['sysctl']['params']['net']['ipv4']['ip_forward'] = 1
