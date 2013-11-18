@@ -10,7 +10,8 @@ include_recipe "ktc-network::post_install"
 processes = node['openstack']['network']['agent_processes']
 
 processes.each do |process|
-  sensu_check "check_process_#{process['name']}" do
+  check_name = process['name'].gsub(/\//, '_')
+  sensu_check "check_process_#{check_name}" do
     command "check-procs.rb -c 10 -w 10 -C 1 -W 1 -p #{process['name']}"
     handlers ["default"]
     standalone true
