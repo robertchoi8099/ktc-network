@@ -4,7 +4,9 @@
 ##
 
 include_recipe "ktc-network::agents"
-include_recipe "ktc-network::post_install"
+if node["openstack"]["network"]["ng_l3"]["setup_entities"]
+  include_recipe "ktc-network::post_install"
+end
 
 # Since quagga is started in post_install recipe, I think it's better to put the monitoring stuff here instead of 'agents' recipe.
 processes = node['openstack']['network']['agent_processes']
