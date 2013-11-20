@@ -10,5 +10,5 @@ default["openstack"]["network"]["ng_l3"] = {
   "private_cidr" => "10.217.174.0/24",
   "private_nameservers" => ["8.8.8.8"],
   "private_gateway_ip" => :null,
-  "private_allocation_pools" => [{"start": "10.217.174.11", "end": "10.217.174.250"}]
+  "private_allocation_pools" => [{"start" => "10.217.174.11", "end" => "10.217.174.250"}]
 }

@@ -56,6 +56,7 @@ private_subnet = node["openstack"]["network"]["ng_l3"]["private_subnet"]
 private_cidr = node["openstack"]["network"]["ng_l3"]["private_cidr"]
 private_nameservers = node["openstack"]["network"]["ng_l3"]["private_nameservers"]
 private_gateway_ip = node["openstack"]["network"]["ng_l3"]["private_gateway_ip"]
+private_allocation_pools = node["openstack"]["network"]["ng_l3"]["private_allocation_pools"]
 
 private_net_options = {
   "name" => private_net,
