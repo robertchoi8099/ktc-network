@@ -3,6 +3,11 @@ include_attribute "ktc-network"
 # override this like the example below
 default["openstack"]["network"]["ng_l3"] = {
   "setup_entities" => false,
+  "heartbeat_network" => nil,
+  "heartbeat_subnet" => nil,
+  "heartbeat_cidr" => nil,
+  "heartbeat_nameservers" => nil,
+  "heartbeat_gateway_ip" => nil,
   "private_network" => nil,
   "private_router" => nil,
   "private_subnet" => nil,
