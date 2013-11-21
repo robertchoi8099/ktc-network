@@ -8,7 +8,7 @@ service_pass = service_password "openstack-network"
 tenant_name = node["openstack"]["network"]["service_tenant_name"]
 user_name = node["openstack"]["network"]["service_user"]
 
-# heartbeat_network shouldn't be nil if heartbeat network exists.
+# heartbeat_network shouldn't be nil if heartbeat network is defined.
 if node["openstack"]["network"]["ng_l3"]["heartbeat_network"]
   heartbeat_net = node["openstack"]["network"]["ng_l3"]["heartbeat_network"]
   heartbeat_subnet = node["openstack"]["network"]["ng_l3"]["heartbeat_subnet"]
