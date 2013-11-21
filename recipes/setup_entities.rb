@@ -20,7 +20,7 @@ if node["openstack"]["network"]["ng_l3"]["heartbeat_network"]
     "multihost:multi_host" => true,
     "shared" => true
   }
-  
+
   ktc_network_network "Create Heartbeat Network" do
     only_if { heartbeat_net }
     auth_uri    auth_uri
@@ -30,7 +30,7 @@ if node["openstack"]["network"]["ng_l3"]["heartbeat_network"]
     options     heartbeat_net_options
     action :create
   end
-  
+
   ktc_network_subnet "Create Heartbeat Subnet" do
     only_if { heartbeat_net }
     auth_uri    auth_uri
@@ -56,7 +56,7 @@ private_subnet = node["openstack"]["network"]["ng_l3"]["private_subnet"]
 private_cidr = node["openstack"]["network"]["ng_l3"]["private_cidr"]
 private_nameservers = node["openstack"]["network"]["ng_l3"]["private_nameservers"]
 private_gateway_ip = node["openstack"]["network"]["ng_l3"]["private_gateway_ip"]
-private_allocation_pools = node["openstack"]["network"]["ng_l3"]["private_allocation_pools"]
+private_alloc_pools = node["openstack"]["network"]["ng_l3"]["private_allocation_pools"]
 
 private_net_options = {
   "name" => private_net,
@@ -89,7 +89,7 @@ ktc_network_subnet "Create Private Subnet" do
     "dns_nameservers" => private_nameservers,
     "name" => private_subnet,
     "gateway_ip" => private_gateway_ip,
-    "allocation_pools" => private_allocation_pools
+    "allocation_pools" => private_alloc_pools
   )
   action :create
 end
