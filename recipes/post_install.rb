@@ -17,7 +17,10 @@ when "ubuntu"
   end
 end
 
-private_cidr = node["openstack"]["network"]["ng_l3"]["private_cidr"]
+zone_subnets = node["openstack"]["network"]["ng_l3"]["subnets"].select do |s|
+  s["zone"] == node["openstack"]["availability_zone"]
+end
+zone_cidrs = zone_subnets.map { |s| s["options"]["cidr"] }
 management_cidr = nil
 iface = KTC::Network.if_lookup "management"
 ip = KTC::Network.address "management"
@@ -34,16 +37,18 @@ rip_iface = KTC::Network.if_lookup node["openstack"]["network"]["quagga"]["rip_n
 #
 include_recipe "simple_iptables"
 
-simple_iptables_rule "ng-INPUT" do
-  direction "INPUT"
-  rule "-s #{private_cidr} -d #{management_cidr}"
-  jump "DROP"
-end
-
-simple_iptables_rule "ng-FORWARD" do
-  direction "FORWARD"
-  rule "-s #{private_cidr} -d #{management_cidr}"
-  jump "DROP"
+zone_cidrs.each do |source_cidr|
+  simple_iptables_rule "ng-INPUT" do
+    direction "INPUT"
+    rule "-s #{source_cidr} -d #{management_cidr}"
+    jump "DROP"
+  end
+  
+  simple_iptables_rule "ng-FORWARD" do
+    direction "FORWARD"
+    rule "-s #{source_cidr} -d #{management_cidr}"
+    jump "DROP"
+  end
 end
 
 #
@@ -81,7 +86,7 @@ template "/etc/quagga/ripd.conf" do
   mode "00644"
   action :create
   variables(
-    :private_cidr => private_cidr,
+    :cidrs => zone_cidrs,
     :network => rip_iface
   )
   notifies :restart, "service[quagga]", :delayed

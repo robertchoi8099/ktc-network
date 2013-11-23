@@ -24,6 +24,7 @@ default["openstack"]["network"]["ng_l3"]["networks"] = [
 ]
 default["openstack"]["network"]["ng_l3"]["subnets"] = [
   {
+    "zone" => "cheonan.dev.ktis",
     "search_id" => { :network => { "name" => "cheonan.dev.ktis" } },
     "options" => {
       "network_id" => :network,
@@ -35,6 +36,7 @@ default["openstack"]["network"]["ng_l3"]["subnets"] = [
     }
   },
   {
+    "zone" => "cheonan.dev.dmz",
     "search_id" => { :network => { "name" => "cheonan.dev.dmz" } },
     "options" => {
       "network_id" => :network,
