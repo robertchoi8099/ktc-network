@@ -24,11 +24,12 @@ port = node["openstack"]["endpoints"]["compute-metadata-api"]["port"]
 node.set["openstack"]["network"]["metadata"]["nova_metadata_ip"] = ip
 node.set["openstack"]["network"]["metadata"]["nova_metadata_port"] = port
 
-networks = ["openstack"]["network"]["ng_l3"]["networks"].select do |n|
+zone_nets = node["openstack"]["network"]["ng_l3"]["networks"].select do |n|
   n["zone"] == node["openstack"]["availability_zone"]
 end
-node.set["openstack"]["network"]["metadata_network"] = networks.join(",")
-node.set["openstack"]["network"]["enabled_networks"] = networks.join(",")
+net_names = zone_nets.map { |n| n["options"]["name"] }
+node.set["openstack"]["network"]["metadata_network"] = net_names.join(",")
+node.set["openstack"]["network"]["enabled_networks"] = net_names.join(",")
 
 chef_gem "chef-rewind"
 require 'chef/rewind'
