@@ -12,7 +12,7 @@ default["openstack"]["network"]["ng_l3"]["networks"] = [
       "multihost:multi_host" => true,
       "shared" => true
     }
-  }, 
+  },
   {
     "zone" => "cheonan.dev.dmz",
     "options" => {

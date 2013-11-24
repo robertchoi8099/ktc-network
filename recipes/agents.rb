@@ -29,7 +29,7 @@ zone_nets = node["openstack"]["network"]["ng_l3"]["networks"].select do |n|
   n["zone"] == az
 end
 net_names = zone_nets.map { |n| n["options"]["name"] }
-node.set["openstack"]["network"]["metadata_network"] = 
+node.set["openstack"]["network"]["metadata_network"] =
   node["openstack"]["network"]["ng_l3"]["private_network"] || az
 node.set["openstack"]["network"]["enabled_networks"] = net_names.join(",")
 

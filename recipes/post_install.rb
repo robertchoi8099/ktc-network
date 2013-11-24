@@ -43,7 +43,7 @@ zone_cidrs.each do |source_cidr|
     rule "-s #{source_cidr} -d #{management_cidr}"
     jump "DROP"
   end
-  
+
   simple_iptables_rule "ng-FORWARD" do
     direction "FORWARD"
     rule "-s #{source_cidr} -d #{management_cidr}"
