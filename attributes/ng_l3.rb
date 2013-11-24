@@ -1,39 +1,15 @@
 include_attribute "ktc-network"
 
-# override this like the example below
-default["openstack"]["network"]["ng_l3"] = {
-  "setup_entities" => false,
-  "heartbeat_network" => nil,
-  "heartbeat_subnet" => nil,
-  "heartbeat_cidr" => nil,
-  "heartbeat_nameservers" => nil,
-  "heartbeat_gateway_ip" => nil,
-  "private_network" => nil,
-  "private_router" => nil,
-  "private_subnet" => nil,
-  "private_cidr" => nil,
-  "private_nameservers" => nil,
-  "private_gateway_ip" => nil,
-  "floating_network" => nil,
-  "floating_cidrs" => nil
-}
+default["openstack"]["network"]["ng_l3"]["setup_entities"] = false
+default["openstack"]["network"]["ng_l3"]["private_network"] = nil
+default["openstack"]["network"]["ng_l3"]["networks"] = []
+default["openstack"]["network"]["ng_l3"]["subnets"] = []
 
-# Example: Assume we use physical_network as our private_network. In this case,
-#          don't override "private_network". setup_entities recipe will choose
-#          node["openstack"]["network"]["linuxbridge"]["physical_network"] as the
-#          private_network in runtime
-#
-# override["openstack"]["network"]["linuxbridge"]["physical_network"] = "private-net-01"
-# override["openstack"]["network"]["ng_l3"] = {
-#   "setup_entities" => true,
-#   "private_router" => "private-router-01",
-#   "private_subnet" => "private-subnet-01",
-#   "private_cidr" => "xxx.xxx.xxx.0/22",
-#   "private_nameservers" => ["xxx.xxx.xxx.xxx"],
-#   "private_gateway_ip" => :null,
-#   "floating_network" => "floating-net",
-#   "floating_cidrs" => [
-#     "xxx.xxx.xxx.xxx/32",
-#     "xxx.xxx.xxx.xxx/32"
-#   ]
-# }
+# If cloud has AZs, don't set private_network. Make a network named the same 
+# to AZ name (node["openstack"]["availability_zone"]), and that network will be
+# refered to as a private_network. Set "zone" key for every network and subnet
+# which belongs to AZs, too. See ipc-ng.rb as an example.
+# If cloud doesn't have AZs, set private_network attr to the name of real
+# private network. Never set "zone" key for any entry. Every network and subnet
+# will be assumed if it belongs to the 'nil' zone. See kitchen.rb as an
+# example.

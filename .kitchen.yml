@@ -43,17 +43,7 @@ suites:
           port: '8775'
       network:
         ng_l3:
-          setup_entities: true
-          physical_network: 'private-net-01'
-          private_subnet: 'private-subnet-01'
-          private_cidr: '10.18.18.0/24'
-          private_nameservers:
-            - '8.8.8.8'
-          heartbeat_network: 'heartbeat'
-          heartbeat_subnet: 'heartbeat'
-          heartbeat_cidr: '10.10.10.0/24'
-          heartbeat_nameservers:
-            - '8.8.8.8'
+          kitchen: true
     authorization:
       sudo:
         users:
@@ -90,17 +80,7 @@ suites:
           port: '8775'
       network:
         ng_l3:
-          setup_entities: true
-          physical_network: 'private-net-01'
-          private_subnet: 'private-subnet-01'
-          private_cidr: '10.18.18.0/24'
-          private_nameservers:
-            - '8.8.8.8'
-          heartbeat_network: 'heartbeat'
-          heartbeat_subnet: 'heartbeat'
-          heartbeat_cidr: '10.10.10.0/24'
-          heartbeat_nameservers:
-            - '8.8.8.8'
+          kitchen: true
     authorization:
       sudo:
         users:
