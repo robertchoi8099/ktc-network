@@ -17,11 +17,11 @@ suites:
   run_list:
     - recipe[ktc-testing]
     - recipe[etcd::compile_time]
+    - recipe[ktc-monitor::client]
     - recipe[ktc-database]
     - recipe[ktc-memcached]
     - recipe[ktc-messaging]
     - recipe[ktc-identity]
-    - recipe[ktc-monitor::client]
     - recipe[ktc-network]
   attributes:
     etcd:
