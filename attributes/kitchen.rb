@@ -1,10 +1,9 @@
-return  unless  chef_environment == "ipc-stage"
+return  unless  node["openstack"]["network"]["ng_l3"]["kitchen"]
 # we want to override defaults
 include_attribute "ktc-network::ng_l3"
 
-# override this like the example below
 default["openstack"]["network"]["ng_l3"]["setup_entities"] = true
-default["openstack"]["network"]["ng_l3"]["private_network"] = "ipc-stage"
+default["openstack"]["network"]["ng_l3"]["private_network"] = "private-net-01"
 default["openstack"]["network"]["ng_l3"]["networks"] = [
   {
     "options" => {
@@ -15,7 +14,7 @@ default["openstack"]["network"]["ng_l3"]["networks"] = [
   },
   {
     "options" => {
-      "name" => "ipc-stage",
+      "name" => "private-net-01",
       "multihost:multi_host" => true,
       "shared" => true
     }
@@ -27,17 +26,17 @@ default["openstack"]["network"]["ng_l3"]["subnets"] = [
     "options" => {
       "network_id" => :network,
       "name" => "heartbeat",
-      "cidr" => "10.210.11.0/24",
+      "cidr" => "10.0.0.0/24",
       "dns_nameservers" => ["8.8.8.8"],
       "gateway_ip" => :null
     }
   },
   {
-    "search_id" => { :network => { "name" => "ipc-stage" } },
+    "search_id" => { :network => { "name" => "private-net-01" } },
     "options" => {
       "network_id" => :network,
-      "name" => "ipc-stage",
-      "cidr" => "10.210.10.0/24",
+      "name" => "private-subnet-01",
+      "cidr" => "10.18.18.0/24",
       "dns_nameservers" => ["8.8.8.8"],
       "gateway_ip" => :null
     }
