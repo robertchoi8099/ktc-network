@@ -33,4 +33,5 @@ service "quantum-plugin-linuxbridge-agent" do
   supports :status => true, :restart => true
   action :enable
   subscribes :restart, tmpl, :delayed
+  subscribes :restart, "git[#{Chef::Config[:file_cache_path]}/quantum]"
 end
