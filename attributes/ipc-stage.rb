@@ -1,4 +1,4 @@
-return  unless  chef_environment == "ipc-stage"
+return  unless chef_environment == "ipc-stage"
 # we want to override defaults
 include_attribute "ktc-network::ng_l3"
 

@@ -1,4 +1,4 @@
-return  unless  chef_environment == "mkd_stag"
+return  unless chef_environment == "mkd_stag"
 # we want to override defaults
 include_attribute "ktc-network::ng_l3"
 
