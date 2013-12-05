@@ -1,4 +1,7 @@
-return  unless  node["openstack"]["network"]["ng_l3"]["kitchen"]
+if !(node["openstack"]["network"]["ng_l3"] &&
+  node["openstack"]["network"]["ng_l3"]["kitchen"])
+  return
+end
 # we want to override defaults
 include_attribute "ktc-network::ng_l3"
 
