@@ -3,7 +3,7 @@
 # Recipe:: agents
 #
 include_recipe "openstack-common"
-include_recipe "openstack-common::logging"
+include_recipe "ktc-logging::logging"
 include_recipe "sysctl::default"
 include_recipe "services"
 include_recipe "ktc-utils"
