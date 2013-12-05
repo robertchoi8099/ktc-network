@@ -38,6 +38,7 @@ include_recipe "openstack-network::server"
 rewind :service => "quantum-server" do
   provider Chef::Provider::Service::Upstart
   action [:enable, :start]
+  subscribes :restart, "git[#{Chef::Config[:file_cache_path]}/quantum]"
 end
 
 # process monitoring and sensu-check config
